@@ -1,7 +1,7 @@
 import './bootstrap';
+import { createApp } from 'vue';
 
-import Alpine from 'alpinejs';
+// Vueアプリを作成してマウント
+const app = createApp({});
 
-window.Alpine = Alpine;
-
-Alpine.start();
+app.mount('#app'); // Vueアプリを #app 要素にマウント
