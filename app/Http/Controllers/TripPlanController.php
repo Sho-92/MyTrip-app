@@ -2,93 +2,91 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TripPlan;
 use Illuminate\Http\Request;
+use App\Models\TripPlan;
+use Carbon\Carbon;
 
 class TripPlanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $trips = TripPlan::where('user_id', auth()->id())->get();
-        return view('trip_plans.index', compact('trips'));
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         return view('trip_plans.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required',
-            'description' => 'nullable',
+        $request->validate([
+            'title' => 'nullable|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'country' => 'required',
-            'city' => 'required',
+            'country' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
         ]);
 
-        TripPlan::create(array_merge($validated, ['user_id' => auth()->id()]));
+        TripPlan::create($request->all());
 
-        return redirect()->route('trip_plans.index')->with('success', '旅行プランが作成されました！');
+        return redirect()->route('home')->with('success', 'Your request was successful');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        $trip = TripPlan::findOrFail($id);
-        return view('trip_plans.show', compact('trip'));
+         // 該当の旅行プランを取得し、そのプランに紐づくリストを一緒に取得
+        $tripPlan = TripPlan::with(['tripLists', 'transportations'])->findOrFail($id);
+
+        //, 'transportations',  'accommodations'
+
+        return view('trip_plans.show',[
+            'tripPlan' => $tripPlan,
+            'tripLists' => $tripPlan->tripLists,
+            'transportations' => $tripPlan->transportations,
+            'accommodations' => $tripPlan->accommodations,
+        ]);
+
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit($id)
     {
-        $trip = TripPlan::findOrFail($id);
-        return view('trip_plans.edit', compact('trip'));
+        $tripPlan = TripPlan::findOrFail((int)$id);
+        return view('trip_plans.edit', compact('tripPlan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'title' => 'required',
-            'description' => 'nullable',
+        $request->validate([
+            'title' => 'nullable|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'country' => 'required',
-            'city' => 'required',
         ]);
 
-        $trip = TripPlan::findOrFail($id);
-        $trip->update($validated);
+        $tripPlan = TripPlan::findOrFail((int)$id);
+        $tripPlan->update([
+            'title' => $request->input('title'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'country' => $request->input('country'),
+            'city' => $request->input('city'),
+        ]);
 
-        return redirect()->route('trip_plans.index')->with('success', '旅行プランが更新されました！');
+        return redirect()->route('trip_plans.show', $tripPlan->id)->with('success', 'Your travel plan has been updated.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $trip = TripPlan::findOrFail($id);
-        $trip->delete();
 
-        return redirect()->route('trip_plans.index')->with('success', '旅行プランが削除されました！');
+        $tripPlan = TripPlan::findOrFail((int)$id);
+        $tripPlan->delete();
+
+        return redirect()->route('home')->with('success', 'Your travel plan has been deleted.');
     }
+
+
+    //public function events(){}
+
 }

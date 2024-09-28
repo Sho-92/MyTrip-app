@@ -1,29 +1,40 @@
 @extends('layouts.app')
 
-@section('content')
-    <div class="container mx-auto mt-8">
-        <h1 class="text-3xl font-bold text-center mb-4">Welcome to {{ config('app.name') }}</h1>
-        <p class="text-center mb-6">This is the home page where you can find amazing features and information.</p>
+@section('navbar-brand')
+    My Trip
+@endsection
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-semibold">Feature 1</h2>
-                <p class="mt-2">Description of feature 1.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-semibold">Feature 2</h2>
-                <p class="mt-2">Description of feature 2.</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-xl font-semibold">Feature 3</h2>
-                <p class="mt-2">Description of feature 3.</p>
-            </div>
+@section('content')
+    <h1 class="display-4 text-center">My Trip</h1>
+
+    <div class="container border border-dark p-4">
+        <h2>Your Next Trip</h2>
+
+        <ul class="list-group mt-4">
+            @forelse($tripPlans as $tripPlan)
+                <li class="list-group-item">
+                    <a href="{{ route('trip_plans.show', $tripPlan->id) }}">
+                        <strong>{{ $tripPlan->title }}</strong>
+                        <span class="text-muted">
+                            ({{ \Carbon\Carbon::parse($tripPlan->start_date)->format('Y-m-d') }} - {{ \Carbon\Carbon::parse($tripPlan->end_date)->format('Y-m-d') }})
+                        </span>
+                        <br>
+                        <span>Country: {{ $tripPlan->country }}</span>
+                        <br>
+                        <span>City: {{ $tripPlan->city }}</span>
+                    </a>
+                </li>
+            @empty
+                <li class="list-group-item">No trip plans available.</li>
+            @endforelse
+        </ul>
+
+        <div class="text-center mt-4">
+            <a href="{{ route('trip_plans.create') }}" class="btn btn-primary">
+                Add New Trip Plan
+            </a>
         </div>
+        
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        // ここにページ特有のスクリプトを追加できます
-    </script>
-@endsection
