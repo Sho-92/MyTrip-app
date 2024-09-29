@@ -139,6 +139,12 @@
         </a>
     </div>
 
+    <div class="text-center mt-4">
+        <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn btn-secondary">
+            checklist
+        </a>
+    </div>
+
     <script>
         const deleteModal = document.getElementById('deleteModal');
         deleteModal.addEventListener('show.bs.modal', event => {

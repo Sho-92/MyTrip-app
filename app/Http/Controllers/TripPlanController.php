@@ -38,15 +38,14 @@ class TripPlanController extends Controller
     public function show($id)
     {
          // 該当の旅行プランを取得し、そのプランに紐づくリストを一緒に取得
-        $tripPlan = TripPlan::with(['tripLists', 'transportations'])->findOrFail($id);
-
-        //, 'transportations',  'accommodations'
+        $tripPlan = TripPlan::with(['tripLists', 'transportations', 'accommodations', 'checklists'])->findOrFail($id);
 
         return view('trip_plans.show',[
             'tripPlan' => $tripPlan,
             'tripLists' => $tripPlan->tripLists,
             'transportations' => $tripPlan->transportations,
             'accommodations' => $tripPlan->accommodations,
+            'checklists' => $tripPlan->checklists,
         ]);
 
     }

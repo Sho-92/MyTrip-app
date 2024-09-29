@@ -60,5 +60,10 @@ class TripPlan extends Model
     {
         return $this->hasMany(Accommodation::class);
     }
+
+    public function checklists()
+    {
+        return $this->hasMany(Checklist::class);
+    }
     
 }
