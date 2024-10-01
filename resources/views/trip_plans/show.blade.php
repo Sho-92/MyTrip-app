@@ -53,6 +53,9 @@
 
     <h2 class="display-4 text-center">Schedule - Lists</h2>
     <div class="container border border-dark p-4">
+
+        <div id='calendar'></div><br>
+
         <ul class="list-group">
             @forelse ($tripLists as $tripList)
                 <li class="list-group-item">
@@ -72,6 +75,7 @@
             <br><a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn btn-primary">Create a new schedule</a>
         </ul>
     </div>
+
 
     <h2 class="display-4 text-center">Transportation Details</h2>
     <div class="container border border-dark p-4">
@@ -174,5 +178,43 @@
                         ? `{{ route('transportations.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`
                         : `{{ route('accommodations.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`;
         });
+
+        // FullCalendarの初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar'); // カレンダーを表示する要素を取得
+            // Laravelからのスケジュールデータを取得
+            const tripLists = @json($tripLists); // LaravelのデータをJavaScriptに渡す
+
+            // FullCalendarの初期化
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: tripLists.map(function(tripList) {
+                    return {
+                        title: tripList.destination, // タイトル
+                        start: tripList.date + 'T' + tripList.start_time, // 開始日時
+                        end: tripList.date + 'T' + tripList.end_time, // 終了日時
+                        description: tripList.notes // メモなど、必要な情報を追加
+                    };
+                }),
+                eventContent: function(arg) {
+                    // HTMLを使ってイベント内容をカスタマイズ
+                    return {
+                        html: `<div class="event-content">
+                                    <strong>${arg.event.title}</strong>
+                                    / ${arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </div>`
+                    };
+                },
+                eventDidMount: function(info) {
+                    // カスタムスタイルを設定
+                    info.el.style.backgroundColor = 'lightblue'; // 背景色を変更
+                    info.el.style.border = '1px solid'; // ボーダーを追加
+                    info.el.style.borderRadius = '5px'; // 角を丸くする
+                }
+            });
+
+            calendar.render(); // カレンダーを描画
+        });
+
     </script>
 @endsection

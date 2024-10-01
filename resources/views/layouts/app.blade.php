@@ -14,6 +14,10 @@
         <!-- Bootstrap 5 -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
+        <!-- FullCalendar CSS -->
+        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
+
+
         <!-- Google Maps APIの読み込み -->
         <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.api_key') }}&libraries=places&callback=initialize" async defer></script>
 
@@ -48,7 +52,10 @@
             <!-- ページごとのスクリプト -->
             @yield('scripts')
 
+            <!-- Bootstrap JavaScript (必要なら追加) -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- FullCalendar JavaScript -->
+            <script defer src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
         </div>
     </body>
 </html>
