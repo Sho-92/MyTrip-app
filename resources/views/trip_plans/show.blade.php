@@ -133,17 +133,27 @@
         </ul>
     </div>
 
+    <h2 class="display-4 text-center">Checklists</h2>
+    <div class="container border border-dark p-4">
+        <ul class="list-group">
+            @forelse($tripPlan->checklists as $checklist)
+                <li class="list-group-item">
+                    <strong>{{ $checklist->title }}</strong>
+                </li>
+            @empty
+                <p>No checklists available for this trip.</p>
+            @endforelse
+            <br>
+            <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn btn-primary">Add Checklist</a>
+        </ul>
+    </div>
+
     <div class="text-center mt-4">
         <a href="{{ route('home') }}" class="btn btn-secondary">
             Return to Trip Plan
         </a>
     </div>
 
-    <div class="text-center mt-4">
-        <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn btn-secondary">
-            checklist
-        </a>
-    </div>
 
     <script>
         const deleteModal = document.getElementById('deleteModal');

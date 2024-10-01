@@ -99,6 +99,8 @@
                 </div>
             </div>
         @endforeach
+        <a href="{{ route('trip_plans.show', $trip_plan) }}" class="btn btn-secondary">戻る</a>
+
     </div>
 
 
@@ -156,6 +158,21 @@
 <script>
     const highlightStates = {}; // ハイライト状態を格納するオブジェクト
 
+    // ページロード時にローカルストレージからチェック状態を復元
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            const taskRow = checkbox.closest('tr');
+            const taskId = taskRow.getAttribute('data-task-id'); // タスクのIDを取得
+            const checklistId = taskRow.closest('.tab-pane').id; // チェックリストのIDを取得
+            const savedState = localStorage.getItem(`${checklistId}_${taskId}`);
+            if (savedState !== null) {
+                checkbox.checked = savedState === 'true'; // 状態を復元
+                toggleHighlight(checkbox); // ハイライトを更新
+            }
+        });
+    });
+
     function filterChecklists() {
         const selectedValue = document.getElementById('checklistFilter').value;
         const allTabs = document.querySelectorAll('.tab-pane');
@@ -187,12 +204,8 @@
         const taskId = taskRow.getAttribute('data-task-id'); // タスクのIDを取得
         const checklistId = taskRow.closest('.tab-pane').id; // チェックリストのIDを取得
 
-        // チェック状態を更新
-        if (!highlightStates[checklistId]) {
-            highlightStates[checklistId] = {};
-        }
-
-        highlightStates[checklistId][taskId] = checkbox.checked;
+        // チェック状態をローカルストレージに保存
+        localStorage.setItem(`${checklistId}_${taskId}`, checkbox.checked);
 
         // 行をハイライト（緑色）
         if (checkbox.checked) {
@@ -221,8 +234,35 @@
                 if (taskCheckbox && row.closest('.tab-pane').id !== 'all') {
                     taskCheckbox.checked = checkbox.checked; // 他のタブのチェックボックスを更新
                     row.classList.toggle('table-success', checkbox.checked); // ハイライトの状態を更新
+                    localStorage.setItem(`${row.closest('.tab-pane').id}_${taskId}`, checkbox.checked); // 更新をローカルストレージにも反映
                 }
             });
+        }
+    }
+
+    // 新しいタスクを追加する関数
+    function addTask(taskId) {
+        const newTaskRow = document.createElement('tr');
+        newTaskRow.setAttribute('data-task-id', taskId);
+        newTaskRow.innerHTML = `
+            <td><input type="checkbox" onchange="toggleHighlight(this)"></td>
+            <td>新しいタスク</td>
+        `;
+        document.querySelector('.tab-pane.active tbody').appendChild(newTaskRow);
+
+        // 新しいタスクのチェックボックスを初期化
+        const newCheckbox = newTaskRow.querySelector('input[type="checkbox"]');
+        newCheckbox.checked = false; // 初期状態は未チェック
+        toggleHighlight(newCheckbox); // 初期状態に基づいてハイライトを設定
+    }
+
+    // タスクを削除する関数
+    function deleteTask(taskId) {
+        const taskRow = document.querySelector(`tr[data-task-id="${taskId}"]`);
+        if (taskRow) {
+            const checklistId = taskRow.closest('.tab-pane').id; // チェックリストのIDを取得
+            taskRow.remove(); // 行を削除
+            localStorage.removeItem(`${checklistId}_${taskId}`); // ローカルストレージからも削除
         }
     }
 
