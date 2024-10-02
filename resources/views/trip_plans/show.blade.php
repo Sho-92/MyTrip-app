@@ -114,6 +114,9 @@
 
     <h2 class="display-4 text-center">Accommodations</h2>
     <div class="container border border-dark p-4">
+
+        <div id="map" style="height: 400px; width: 100%;"></div>
+
         <ul class="list-group">
             @forelse($accommodations as $accommodation)
                 <li class="list-group-item">
@@ -124,6 +127,10 @@
                     メモ: {{ $accommodation->notes }}
                     <br>
                     <a href="{{ route('accommodations.edit', ['trip_plan' => $tripPlan->id, 'accommodation' => $accommodation->id]) }}" class="btn btn-warning mt-2">Edit</a>
+
+                    <button type="button" class="btn btn-primary mt-2 show-map" data-address="{{ $accommodation->address }}">
+                        Show on Map
+                    </button>
 
                     <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="accommodation" data-item-id="{{ $accommodation->id }}">
                         Delete
@@ -157,6 +164,7 @@
             Return to Trip Plan
         </a>
     </div>
+
 
 
     <script>
@@ -214,6 +222,84 @@
             });
 
             calendar.render(); // カレンダーを描画
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Google Maps APIが初期化されました');
+            if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key={{ config('services.google.api_key') }}&libraries=places&callback=initMap`;
+                script.async = true;
+                script.onload = function() {
+                    console.log("Google Maps APIのスクリプトが読み込まれました。");
+                };
+                script.onerror = function() {
+                    console.error("Google Maps APIの読み込み中にエラーが発生しました。");
+                };
+                document.head.appendChild(script);
+            } else {
+                initMap(); // すでに読み込まれている場合はinitMapを呼び出す
+            }
+
+            // 地図の初期化関数
+            window.initMap = function() {
+                var location = {lat: 35.6895, lng: 139.6917};  // 東京の座標
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 1,
+                    center: location,
+                    mapTypeControl: true, // 地図タイプコントロールを表示
+                    mapTypeId: 'roadmap', // デフォルトの地図タイプ
+                    streetViewControl: true // Street Viewコントロールを表示
+                });
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+
+            // 住所を地図に表示する関数
+            function displayMapForAddress(address) {
+                const geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ address: address }, function(results, status) {
+                    if (status === 'OK') {
+                        const location = results[0].geometry.location;
+                        const mapOptions = {
+                            zoom: 15,
+                            center: location
+                        };
+                        const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                        new google.maps.Marker({
+                            position: location,
+                            map: map
+                        });
+                    } else {
+                        console.error('Geocode was not successful for the following reason: ' + status);
+                    }
+                });
+            }
+
+            // ボタンのクリックイベントを設定
+            const showMapButtons = document.querySelectorAll('.show-map');
+            showMapButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const address = this.getAttribute('data-address'); // 住所を取得
+                    displayMapForAddress(address); // 住所を使って地図を表示
+                });
+            });
+
+            // Google Maps APIのスクリプトを非同期で読み込む
+            if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key={{ config('services.google.api_key') }}&libraries=places&callback=initMap`;
+                script.async = true;
+                script.onload = function() {
+                    console.log("Google Maps APIのスクリプトが読み込まれました。");
+                };
+                script.onerror = function() {
+                    console.error("Google Maps APIの読み込み中にエラーが発生しました。");
+                };
+                document.head.appendChild(script);
+            }
         });
 
     </script>

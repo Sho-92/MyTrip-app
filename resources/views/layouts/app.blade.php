@@ -19,7 +19,7 @@
 
 
         <!-- Google Maps APIの読み込み -->
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.api_key') }}&libraries=places&callback=initialize" async defer></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google.api_key') }}&libraries=places&language=en&callback=initMap" async defer></script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
