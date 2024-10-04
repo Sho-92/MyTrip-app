@@ -8,6 +8,7 @@ use App\Http\Controllers\TripListController;
 use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\Auth\GuestLoginController;
 
 
 Route::get('/', function () {
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('/guest-login', [GuestLoginController::class, 'login'])->name('guest.login');
 
 require __DIR__.'/auth.php';
 

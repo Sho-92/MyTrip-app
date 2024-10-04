@@ -32,12 +32,30 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-center mt-4">
+        <div class="flex items-center justify-center mt-4 space-x-4">
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}
             </x-primary-button>
+
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}">
+                    <x-primary-button class="ms-3">
+                        {{ __("Register") }}
+                    </x-primary-button>
+                </a>
+            @endif
         </div>
+
     </form>
+    <!-- Guest Login Button -->
+    <div class="flex items-center justify-center mt-4">
+        <form method="POST" action="{{ route('guest.login') }}">
+            @csrf
+            <x-primary-button>
+                {{ __("Guest Login") }}
+            </x-primary-button>
+        </form>
+    </div>
 
     <div class="flex items-center justify-end mt-4">
         @if (Route::has('password.request'))
@@ -46,13 +64,6 @@
                 {{ __('Forgot your password?' ) }}
             </a>
         </div>
-        @endif
-
-        @if (Route::has('register'))
-            <span class="mx-2">／</span>
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
-                {{ __("Don't have an account?") }}
-            </a>
         @endif
     </div>
 </x-guest-layout>
