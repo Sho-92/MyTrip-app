@@ -7,26 +7,35 @@
 @section('content')
     <h1 class="display-4 text-center">Your Next Trip</h1>
 
-    <div class="container border border-dark p-4">
-        <h2 class="mt-4">
-            @if($tripPlan->title)
-                {{ $tripPlan->title }} - Trip Lists
-            @else
-                {{ $tripPlan->country }} - Trip Lists
-            @endif
-        </h2>
+    <div class="container p-4" style="max-width: 600px; margin-left: auto; margin-right: auto;">
+        <div class="border border-dark p-4">
+            <h2 class="display-6 text-center">
+                @if($tripPlan->title)
+                    {{ $tripPlan->title }}
+                @else
+                    {{ $tripPlan->country }}
+                @endif
+            </h2>
 
-        <p>Start Date: {{ \Carbon\Carbon::parse($tripPlan->start_date)->format('Y-m-d') }}</p>
-        <p>End Date: {{ \Carbon\Carbon::parse($tripPlan->end_date)->format('Y-m-d') }}</p>
-        <p>Country: {{ $tripPlan->country }}</p>
-        <p>City: {{ $tripPlan->city }}</p>
+            <p class="text-lg text-gray-600 mt-2 text-center">
+                {{ \Carbon\Carbon::parse($tripPlan->start_date)->format('Y-m-d') }} - {{ \Carbon\Carbon::parse($tripPlan->end_date)->format('Y-m-d') }}
+            </p>
+            <p class="text-lg text-gray-600 mt-2 text-center">
+                Country: {{ $tripPlan->country }} | City: {{ $tripPlan->city }}
+            </p>
 
-        <a href="{{ route('trip_plans.edit', $tripPlan->id) }}" class="btn btn-warning">Edit</a>
+            <div class="text-end mt-2">
+                <a href="{{ route('trip_plans.edit', $tripPlan->id) }}" class="mx-2">
+                    <i class="fas fa-edit"></i>
+                </a>
 
-        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="trip" data-item-id="{{ $tripPlan->id }}">
-            Delete
-        </button>
+                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="trip" data-item-id="{{ $tripPlan->id }}">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </div>
+        </div>
     </div>
+
 
     <!-- 共通の削除モーダル -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
@@ -61,20 +70,25 @@
                 <ul class="list-group">
                     @forelse ($tripLists as $tripList)
                         <li class="list-group-item">
-                            <strong>{{ $tripList->date }}</strong> - {{ $tripList->destination }} <br>
+                            <strong>{{ $tripList->date }}</strong> /
                             {{ $tripList->start_time ? $tripList->start_time : 'Start Time' }} -
-                            {{ $tripList->end_time ? $tripList->end_time : 'End Time' }}<br>
+                            {{ $tripList->end_time ? $tripList->end_time : 'End Time' }} /
+                            {{ $tripList->destination }}<br>
                             Memo: {{ $tripList->notes }}<br>
-                            <a href="{{ route('trip_lists.edit', [$tripPlan->id, $tripList->id]) }}" class="btn btn-warning mt-2">Edit</a>
+                            <div class="text-end mt-2">
+                                <a href="{{ route('trip_lists.edit', [$tripPlan->id, $tripList->id]) }}" class="mx-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
 
-                            <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="schedule" data-item-id="{{ $tripList->id }}">
-                                Delete
-                            </button>
+                                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="schedule" data-item-id="{{ $tripList->id }}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
                         </li>
                     @empty
                         <p>No schedule has been registered yet.</p>
                     @endforelse
-                    <br><a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn btn-primary">Create a new schedule</a>
+                    <br><a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn btn-primary">Create a New Schedule</a>
                 </ul>
             </div>
 
@@ -101,11 +115,16 @@
                             {{ isset($transportationIcons[$transportation->transportation_mode]) ? $transportationIcons[$transportation->transportation_mode] : 'Not Specified' }}
                             <br>Memo: {{ $transportation->notes }}
                             <br>
-                            <a href="{{ route('transportations.edit', ['trip_plan' => $tripPlan->id, 'transportation' => $transportation->id]) }}" class="btn btn-warning mt-2">Edit</a>
 
-                            <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="transportation" data-item-id="{{ $transportation->id }}">
-                                Delete
-                            </button>
+                            <div class="text-end mt-2">
+                                <a href="{{ route('transportations.edit', ['trip_plan' => $tripPlan->id, 'transportation' => $transportation->id]) }}" class="mx-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="transportation" data-item-id="{{ $transportation->id }}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
                         </li>
                     @empty
                         <p>No transportation details available for this trip.</p>
@@ -120,7 +139,7 @@
             <!-- Accommodations Section -->
             <h2 class="display-4 text-center">Accommodations</h2>
             <div class="container border border-dark p-4">
-                <div id="map" style="height: 400px; width: 100%;"></div>
+                <div id="map" style="height: 400px; width: 100%;"></div><br>
                 <ul class="list-group">
                     @forelse($accommodations as $accommodation)
                         <li class="list-group-item">
@@ -129,19 +148,24 @@
                             check-out: {{ $accommodation->check_out_date }} {{ \Carbon\Carbon::parse($accommodation->check_out_time)->format('H:i') }}<br>
                             Notes: {{ $accommodation->notes }}
                             <br>
-                            <a href="{{ route('accommodations.edit', ['trip_plan' => $tripPlan->id, 'accommodation' => $accommodation->id]) }}" class="btn btn-warning mt-2">Edit</a>
 
-                            <button type="button" class="btn btn-primary mt-2 show-map"
-                            data-address="{{ $accommodation->address }}"data-hotel-name="{{ $accommodation->hotel_name }}"
-                            data-check-in="{{ $accommodation->check_in_date }} {{ \Carbon\Carbon::parse($accommodation->check_in_time)->format('H:i') }}"
-                            data-check-out="{{ $accommodation->check_out_date }} {{ \Carbon\Carbon::parse($accommodation->check_out_time)->format('H:i') }}"
-                            data-notes="{{ $accommodation->notes }}">
-                                Show on Map
-                            </button>
+                            <div class="text-end mt-2">
+                                <button type="button" class="btn mx-2 show-map"
+                                data-address="{{ $accommodation->address }}"data-hotel-name="{{ $accommodation->hotel_name }}"
+                                data-check-in="{{ $accommodation->check_in_date }} {{ \Carbon\Carbon::parse($accommodation->check_in_time)->format('H:i') }}"
+                                data-check-out="{{ $accommodation->check_out_date }} {{ \Carbon\Carbon::parse($accommodation->check_out_time)->format('H:i') }}"
+                                data-notes="{{ $accommodation->notes }}">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </button>
 
-                            <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="accommodation" data-item-id="{{ $accommodation->id }}">
-                                Delete
-                            </button>
+                                <a href="{{ route('accommodations.edit', ['trip_plan' => $tripPlan->id, 'accommodation' => $accommodation->id]) }}" class="mx-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="accommodation" data-item-id="{{ $accommodation->id }}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
                         </li>
                     @empty
                         <p>No accommodations available for this trip.</p>
@@ -169,7 +193,9 @@
     </div>
 
     <div class="text-center mt-4">
-        <a href="{{ route('home') }}" class="btn btn-secondary">Return to Trip Plan</a>
+        <button type="button" class="btn btn-secondary  mx-2" onclick="window.history.back()">
+            ← back
+        </button>
     </div>
 
 

@@ -2,12 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>チェックリスト</h1>
-
-    <!-- チェックリスト追加ボタン -->
-    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addChecklistModal">
-        チェックリストを追加
-    </button>
+    <h1 class="display-4 text-center">Checklist</h1>
 
     <!-- チェックリストのタブ -->
     <div class="nav nav-tabs" id="myTab" role="tablist">
@@ -21,7 +16,7 @@
     <div class="tab-content mt-3">
         <div class="tab-pane fade show active" id="all">
             @if($checklists->isEmpty())
-                <p>チェックリストがありません。追加してください。</p>
+                <p>There is no checklist.</p>
             @else
                 @foreach ($checklists as $checklist)
                     <div class="card mb-3">
@@ -32,9 +27,9 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>チェック</th>
-                                        <th>タスクのタイトル</th>
-                                        <th>タスクの説明</th>
+                                        <th>Check</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,13 +44,16 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="text-end mt-2">
+                                <a href="{{ route('checklists.edit', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" class="mx-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteChecklistModal" data-checklist-id="{{ $checklist->id }}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
                         </div>
-                        <!-- 各チェックリストの編集ボタン -->
-                        <a href="{{ route('checklists.edit', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" class="btn btn-warning">編集</a>
-                        <!-- 各チェックリストの削除ボタン -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteChecklistModal" data-checklist-id="{{ $checklist->id }}">
-                            削除
-                        </button>
                     </div>
                 @endforeach
             @endif
@@ -72,9 +70,9 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>チェック</th>
-                                    <th>タスクのタイトル</th>
-                                    <th>タスクの説明</th>
+                                    <th>Check</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,18 +87,30 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="text-end mt-2">
+                            <a href="{{ route('checklists.edit', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" class="mx-2">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteChecklistModal" data-checklist-id="{{ $checklist->id }}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
                     </div>
-                    <!-- 各チェックリストの編集ボタン -->
-                    <a href="{{ route('checklists.edit', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" class="btn btn-warning">編集</a>
-                    <!-- 各チェックリストの削除ボタン -->
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteChecklistModal" data-checklist-id="{{ $checklist->id }}">
-                        削除
-                    </button>
                 </div>
             </div>
         @endforeach
-        <a href="{{ route('trip_plans.show', $trip_plan) }}" class="btn btn-secondary">戻る</a>
 
+            <!-- チェックリスト追加ボタン -->
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
+                    ← back
+                </button>
+
+                <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addChecklistModal">
+                    Add Checklist
+                </button>
+            </div>
     </div>
 
 
@@ -111,18 +121,18 @@
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addChecklistModalLabel">新しいチェックリストを追加</h5>
+                        <h5 class="modal-title" id="addChecklistModalLabel">Add new checklist</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="title" class="form-label">チェックリストのタイトル</label>
+                            <label for="title" class="form-label">Checklist Title</label>
                             <input type="text" class="form-control" id="title" name="title" required>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                        <button type="submit" class="btn btn-primary">追加</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </div>
             </form>
@@ -137,15 +147,15 @@
                 @method('DELETE')
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteChecklistModalLabel">チェックリストの削除確認</h5>
+                        <h5 class="modal-title" id="deleteChecklistModalLabel">Confirm Deletion</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        このチェックリストを本当に削除しますか？この操作は取り消せません。
+                        Are you sure you want to delete this? This action cannot be undone.
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                        <button type="submit" class="btn btn-danger">削除</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             </form>
@@ -189,10 +199,10 @@
     function redirectToCreateTask() {
         const checklistId = document.getElementById('checklistFilter').value; // 選択されたチェックリストのIDを取得
         if (checklistId === "") {
-            alert('チェックリストを選択してください。'); // 空の選択肢が選ばれた場合
+            alert('Please select a checklist.'); // 空の選択肢が選ばれた場合
             return;
         } else if (checklistId === "all") {
-            alert('すべてのチェックリストが選択されました。タスクを作成するには、特定のチェックリストを選択してください。');
+            alert('All checklists are selected. Select a specific checklist to create a task.');
             return;
         }
         // URLを正しく構成する
@@ -209,9 +219,9 @@
 
         // 行をハイライト（緑色）
         if (checkbox.checked) {
-            taskRow.classList.add('table-success');
+            taskRow.classList.add('table-primary');
         } else {
-            taskRow.classList.remove('table-success');
+            taskRow.classList.remove('table-primary');
         }
 
         // 各タスクから All タブへ反映
@@ -221,7 +231,7 @@
                 const allCheckbox = allTaskRow.querySelector('input[type="checkbox"]');
                 if (allCheckbox) {
                     allCheckbox.checked = checkbox.checked; // Allタブのチェックボックスを更新
-                    allTaskRow.classList.toggle('table-success', checkbox.checked); // Allタブのハイライトを更新
+                    allTaskRow.classList.toggle('table-primary', checkbox.checked); // Allタブのハイライトを更新
                 }
             }
         }
@@ -233,7 +243,7 @@
                 const taskCheckbox = row.querySelector('input[type="checkbox"]');
                 if (taskCheckbox && row.closest('.tab-pane').id !== 'all') {
                     taskCheckbox.checked = checkbox.checked; // 他のタブのチェックボックスを更新
-                    row.classList.toggle('table-success', checkbox.checked); // ハイライトの状態を更新
+                    row.classList.toggle('table-primary', checkbox.checked); // ハイライトの状態を更新
                     localStorage.setItem(`${row.closest('.tab-pane').id}_${taskId}`, checkbox.checked); // 更新をローカルストレージにも反映
                 }
             });
@@ -246,7 +256,7 @@
         newTaskRow.setAttribute('data-task-id', taskId);
         newTaskRow.innerHTML = `
             <td><input type="checkbox" onchange="toggleHighlight(this)"></td>
-            <td>新しいタスク</td>
+            <td>New Task</td>
         `;
         document.querySelector('.tab-pane.active tbody').appendChild(newTaskRow);
 

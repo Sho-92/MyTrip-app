@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>{{ $checklist->title }} の編集</h1>
+    <h1 class="display-4 text-center">Editing your {{ $checklist->title }}</h1>
 
     <form action="{{ route('checklists.update', ['trip_plan' => $trip_plan_id, 'checklist' => $checklist->id]) }}" method="POST">
         @csrf
@@ -10,7 +10,7 @@
 
         <!-- チェックリストのタイトル編集 -->
         <div class="mb-3">
-            <label for="title" class="form-label">チェックリストのタイトル</label>
+            <label for="title" class="form-label">Checklist Title</label>
             <input type="text" class="form-control" id="title" name="title" value="{{ $checklist->title }}" required>
         </div>
 
@@ -21,9 +21,9 @@
         <table class="table" id="tasksTable">
             <thead>
                 <tr>
-                    <th>タスクのタイトル</th>
-                    <th>タスクの説明</th>
-                    <th>操作</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,16 +36,21 @@
                         <textarea class="form-control" name="tasks[{{ $task->id }}][description]" rows="2" required>{{ $task->description }}</textarea>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger remove-row" data-task-id="{{ $task->id }}">削除</button>
+                        <button type="button" class="btn btn-danger remove-row" data-task-id="{{ $task->id }}">Delete</button>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
 
-        <button type="button" id="addRow" class="btn btn-secondary">行を追加</button>
-        <button type="submit" class="btn btn-primary">保存</button>
-        <a href="{{ route('checklists.index', $trip_plan_id) }}" class="btn btn-secondary">キャンセル</a>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
+                ← back
+            </button>
+
+            <button type="submit" class="btn btn-primary mx-2"> Save </button>
+            <button type="button" id="addRow" class="btn btn-secondary mx-2"> Add More Rows </button>
+        </div>
     </form>
 </div>
 
@@ -62,7 +67,7 @@
             newRow.innerHTML = `
                 <td><input type="text" class="form-control" name="tasks[new_${rowCount}][title]" required></td>
                 <td><textarea class="form-control" name="tasks[new_${rowCount}][description]" rows="2" required></textarea></td>
-                <td><button type="button" class="btn btn-danger remove-row">削除</button></td>
+                <td><button type="button" class="btn btn-danger remove-row">Delete</button></td>
             `;
             tableBody.appendChild(newRow);
             rowCount++;
