@@ -1,9 +1,9 @@
-// @tailwind base;
-// @tailwind components;
-// @tailwind utilities;
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 
-//カレンダー内のスケジュール表示
+/* カレンダー内のスケジュール表示 */
 .fc-daygrid-event {
     display: flex; /* Flexboxを使用 */
     justify-content: center; /* 中央揃え */

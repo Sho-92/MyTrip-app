@@ -9,7 +9,7 @@
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 
@@ -27,29 +27,28 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     </head>
-    <body class="font-sans antialiased">
-        <div id="app">
-            <div class="min-h-screen bg-gray-100">
-                @include('layouts.navigation')
+    <body>
+        <div id="app" class="d-flex flex-column min-vh-100 bg-light">
+            @include('layouts.navigation')
 
-                <!-- Page Heading -->
-                @isset($header)
-                    <header class="bg-white shadow">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endisset
+            <!-- Page Heading -->
+            @isset($header)
+                <header class="bg-white shadow-sm">
+                    <div class="container py-3">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endisset
 
-                <!-- Page Content -->
-                <main>
-                    @yield('content')
-                </main>
+            <!-- Page Content -->
+            <main class="flex-grow-1">
+                @yield('content')
+            </main>
 
-                <footer class="bg-light text-center py-3">
-                    <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
-                </footer>
-            </div>
+            <footer class="bg-light text-center py-3 mt-auto">
+                <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
+            </footer>
+        </div>
 
             <!-- ページごとのスクリプト -->
             @yield('scripts')
@@ -58,6 +57,6 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
             <!-- FullCalendar JavaScript -->
             <script defer src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
-        </div>
+
     </body>
 </html>
