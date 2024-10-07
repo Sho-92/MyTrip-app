@@ -24,7 +24,6 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     </head>
     <body>
         <div class="d-flex flex-column min-vh-100 bg-light">
@@ -40,11 +39,11 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="flex-grow-1">
+            <main style="background: linear-gradient(135deg, #4a6bb5, #6f9bc9); color: white;" class="flex-grow-1">
                 @yield('content')
             </main>
 
-            <footer class="bg-light text-center py-3 mt-auto">
+            <footer style="background: #ffffff;" class="text-center py-3 mt-auto">
                 <p>&copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
             </footer>
         </div>

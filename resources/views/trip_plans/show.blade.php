@@ -7,8 +7,8 @@
 @section('content')
     <h1 class="display-4 text-center">Your Next Trip</h1>
 
-    <div class="container p-4" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-        <div class="border border-dark p-4">
+    <div class="container border border-dark p-4"  style="width: 50%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
+        <div class="border border-dark p-4" style="color: #000000;">
             <h2 class="display-6 text-center">
                 @if($tripPlan->title)
                     {{ $tripPlan->title }}
@@ -41,11 +41,11 @@
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="color: #000;">
                     <h5 class="modal-title" id="deleteLabel">Confirm Deletion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="color: #000;">
                     Are you sure you want to delete this <span id="item-type"></span>? This action cannot be undone.
                 </div>
                 <div class="modal-footer">
@@ -60,140 +60,152 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="display: flex; flex-wrap: wrap;">
         <!-- Left Column: Schedule - Lists and Transportation Details -->
-        <div class="col-md-6">
+        <div class="col-md-6" style="flex: 1;">
             <!-- Schedule - Lists Section -->
             <h2 class="display-4 text-center">Schedules</h2>
-            <div class="container border border-dark p-4" >
-                <div id='calendar'></div><br>
-                <ul class="list-group">
-                    @forelse ($tripLists as $tripList)
-                        <li class="list-group-item">
-                            <strong>{{ $tripList->date }}</strong> /
-                            {{ $tripList->start_time ? $tripList->start_time : 'Start Time' }} -
-                            {{ $tripList->end_time ? $tripList->end_time : 'End Time' }} /
-                            {{ $tripList->destination }}<br>
-                            Memo: {{ $tripList->notes }}<br>
-                            <div class="text-end mt-2">
-                                <a href="{{ route('trip_lists.edit', [$tripPlan->id, $tripList->id]) }}" class="mx-2">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+            <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 680px;">
+                <div id='calendar' style="flex-shrink: 0; flex-grow: 1; height: 400px; width: 100%; max-width: 800px; margin: 0 auto; border: 1px solid #000; border-radius: 10px; padding: 20px; color: #000;"></div><br>
+                <div style="flex-grow: 1; overflow-y: auto; margin-bottom: 10px;">
+                    <ul class="list-group">
+                        @forelse ($tripLists as $tripList)
+                            <li class="list-group-item">
+                                <strong>{{ $tripList->date }}</strong> /
+                                {{ $tripList->start_time ? $tripList->start_time : 'Start Time' }} -
+                                {{ $tripList->end_time ? $tripList->end_time : 'End Time' }} /
+                                {{ $tripList->destination }}<br>
+                                Memo: {{ $tripList->notes }}<br>
+                                <div class="text-end mt-2">
+                                    <a href="{{ route('trip_lists.edit', [$tripPlan->id, $tripList->id]) }}" class="mx-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="schedule" data-item-id="{{ $tripList->id }}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        @empty
+                            <li class="list-group-item">No schedule has been registered yet.</li>
+                        @endforelse
+                    </ul>
+                </div>
 
-                                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="schedule" data-item-id="{{ $tripList->id }}">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </li>
-                    @empty
-                        <p>No schedule has been registered yet.</p>
-                    @endforelse
-                    <br><a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn btn-primary">Create a New Schedule</a>
-                </ul>
+                <br>
+                <a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Create a New Schedule</a>
             </div>
 
             <!-- Transportation Details Section -->
             <h2 class="display-4 text-center mt-4">Transportations</h2>
-            <div class="container border border-dark p-4">
-                <ul class="list-group">
-                    @forelse($transportations as $transportation)
-                        <li class="list-group-item">
-                            <strong>{{ $transportation->departure_location }}</strong> to <strong>{{ $transportation->arrival_location }}</strong>
-                            at {{ $transportation->departure_time }} - {{ $transportation->arrival_time }}
-                            on {{ $transportation->date }}
-                            @php
-                                $transportationIcons = [
-                                    'plane' => '🛩️',
-                                    'train' => '🚄',
-                                    'bus' => '🚌',
-                                    'car' => '🚗',
-                                    'bicycle' => '🚲',
-                                    'walking' => '🚶',
-                                    'other' => '🌍',
-                                ];
-                            @endphp
-                            {{ isset($transportationIcons[$transportation->transportation_mode]) ? $transportationIcons[$transportation->transportation_mode] : 'Not Specified' }}
-                            <br>Memo: {{ $transportation->notes }}
-                            <br>
+            <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 350px;">
+                <div style="flex-grow: 1; overflow-y: auto; margin-bottom: 10px;">
+                    <ul class="list-group">
+                        @forelse($transportations as $transportation)
+                            <li class="list-group-item">
+                                <strong>{{ $transportation->departure_location }}</strong> to <strong>{{ $transportation->arrival_location }}</strong>
+                                at {{ $transportation->departure_time }} - {{ $transportation->arrival_time }}
+                                on {{ $transportation->date }}
+                                @php
+                                    $transportationIcons = [
+                                        'plane' => '🛩️',
+                                        'train' => '🚄',
+                                        'bus' => '🚌',
+                                        'car' => '🚗',
+                                        'bicycle' => '🚲',
+                                        'walking' => '🚶',
+                                        'other' => '🌍',
+                                    ];
+                                @endphp
+                                {{ isset($transportationIcons[$transportation->transportation_mode]) ? $transportationIcons[$transportation->transportation_mode] : 'Not Specified' }}
+                                <br>Memo: {{ $transportation->notes }}
+                                <br>
 
-                            <div class="text-end mt-2">
-                                <a href="{{ route('transportations.edit', ['trip_plan' => $tripPlan->id, 'transportation' => $transportation->id]) }}" class="mx-2">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                                <div class="text-end mt-2">
+                                    <a href="{{ route('transportations.edit', ['trip_plan' => $tripPlan->id, 'transportation' => $transportation->id]) }}" class="mx-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
 
-                                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="transportation" data-item-id="{{ $transportation->id }}">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </li>
-                    @empty
-                        <p>No transportation details available for this trip.</p>
-                    @endforelse
-                    <br><a href="{{ route('transportations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn btn-primary">Add Transportation</a>
-                </ul>
+                                    <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="transportation" data-item-id="{{ $transportation->id }}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        @empty
+                            <p>No transportation details available for this trip.</p>
+                        @endforelse
+                    </ul>
+                </div>
+                <br>
+                <a href="{{ route('transportations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Add Transportation</a>
             </div>
         </div>
 
         <!-- Right Column: Accommodations and Checklists -->
-        <div class="col-md-6">
+        <div class="col-md-6" style="flex: 1;">
             <!-- Accommodations Section -->
             <h2 class="display-4 text-center">Accommodations</h2>
-            <div class="container border border-dark p-4">
-                <div id="map" style="height: 400px; width: 100%;"></div><br>
-                <ul class="list-group">
-                    @forelse($accommodations as $accommodation)
-                        <li class="list-group-item">
-                            <strong>{{ $accommodation->hotel_name }}</strong><br>
-                            Check-in: {{ $accommodation->check_in_date }} {{ \Carbon\Carbon::parse($accommodation->check_in_time)->format('H:i') }}<br>
-                            check-out: {{ $accommodation->check_out_date }} {{ \Carbon\Carbon::parse($accommodation->check_out_time)->format('H:i') }}<br>
-                            Notes: {{ $accommodation->notes }}
-                            <br>
+            <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 680px;">
+                <div id="map" style="flex-shrink: 0; flex-grow: 1; height: 400px; width: 100%; max-width: 800px; margin: 0 auto; border: 1px solid #000; border-radius: 10px; padding: 20px;"></div><br>
+                    <div style="flex-grow: 1; overflow-y: auto; margin-bottom: 10px;">
+                        <ul class="list-group">
+                            @forelse($accommodations as $accommodation)
+                                <li class="list-group-item">
+                                    <strong>{{ $accommodation->hotel_name }}</strong><br>
+                                    Check-in: {{ $accommodation->check_in_date }} {{ \Carbon\Carbon::parse($accommodation->check_in_time)->format('H:i') }}<br>
+                                    check-out: {{ $accommodation->check_out_date }} {{ \Carbon\Carbon::parse($accommodation->check_out_time)->format('H:i') }}<br>
+                                    Notes: {{ $accommodation->notes }}
+                                    <br>
 
-                            <div class="text-end mt-2">
-                                <button type="button" class="btn mx-2 show-map"
-                                data-address="{{ $accommodation->address }}"data-hotel-name="{{ $accommodation->hotel_name }}"
-                                data-check-in="{{ $accommodation->check_in_date }} {{ \Carbon\Carbon::parse($accommodation->check_in_time)->format('H:i') }}"
-                                data-check-out="{{ $accommodation->check_out_date }} {{ \Carbon\Carbon::parse($accommodation->check_out_time)->format('H:i') }}"
-                                data-notes="{{ $accommodation->notes }}">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </button>
+                                    <div class="text-end mt-2">
+                                        <button type="button" class="btn mx-2 show-map"
+                                        data-address="{{ $accommodation->address }}"data-hotel-name="{{ $accommodation->hotel_name }}"
+                                        data-check-in="{{ $accommodation->check_in_date }} {{ \Carbon\Carbon::parse($accommodation->check_in_time)->format('H:i') }}"
+                                        data-check-out="{{ $accommodation->check_out_date }} {{ \Carbon\Carbon::parse($accommodation->check_out_time)->format('H:i') }}"
+                                        data-notes="{{ $accommodation->notes }}">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                        </button>
 
-                                <a href="{{ route('accommodations.edit', ['trip_plan' => $tripPlan->id, 'accommodation' => $accommodation->id]) }}" class="mx-2">
-                                    <i class="fas fa-edit"></i>
-                                </a>
+                                        <a href="{{ route('accommodations.edit', ['trip_plan' => $tripPlan->id, 'accommodation' => $accommodation->id]) }}" class="mx-2">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
 
-                                <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="accommodation" data-item-id="{{ $accommodation->id }}">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </li>
-                    @empty
-                        <p>No accommodations available for this trip.</p>
-                    @endforelse
-                    <br><a href="{{ route('accommodations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn btn-primary">Add Accommodation</a>
-                </ul>
+                                        <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal" data-item-type="accommodation" data-item-id="{{ $accommodation->id }}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            @empty
+                                <p>No accommodations available for this trip.</p>
+                            @endforelse
+                        </ul>
+                    </div>
+                    <br>
+                    <a href="{{ route('accommodations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Add Accommodation</a>
+                </div>
             </div>
 
             <!-- Checklists Section -->
             <h2 class="display-4 text-center mt-4">Checklists</h2>
-            <div class="container border border-dark p-4">
-                <ul class="list-group">
-                    @forelse($tripPlan->checklists as $checklist)
-                        <li class="list-group-item">
-                            <strong>{{ $checklist->title }}</strong>
-                        </li>
-                    @empty
-                        <p>No checklists available for this trip.</p>
-                    @endforelse
-                    <br>
-                    <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn btn-primary">Add Checklist</a>
-                </ul>
+            <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 350px;">
+                <div style="flex-grow: 1; overflow-y: auto; margin-bottom: 10px;">
+                    <ul class="list-group">
+                        @forelse($tripPlan->checklists as $checklist)
+                            <li class="list-group-item">
+                                <strong>{{ $checklist->title }}</strong>
+                            </li>
+                        @empty
+                            <p>No checklists available for this trip.</p>
+                        @endforelse
+                    </ul>
+                </div>
+                <br>
+                <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Add Checklist</a>
             </div>
         </div>
     </div>
 
     <div class="text-center mt-4">
-        <button type="button" class="btn btn-secondary  mx-2" onclick="window.history.back()">
+        <button type="button" class="btn btn-secondary mx-2 mb-3" onclick="window.history.back()">
             ← back
         </button>
     </div>
@@ -211,13 +223,19 @@
             itemTypeSpan.textContent = itemType === 'trip' ? 'trip plan' : itemType;
 
             const form = deleteModal.querySelector('#deleteForm');
-            form.action = itemType === 'trip'
-                ? `{{ route('trip_plans.destroy', '') }}/${itemId}`
-                : itemType === 'schedule'
-                    ? `{{ route('trip_lists.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`
-                    : itemType === 'transportation'
-                        ? `{{ route('transportations.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`
-                        : `{{ route('accommodations.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`;
+            let deleteUrl = '';
+
+            if (itemType === 'trip') {
+                deleteUrl = `{{ route('trip_plans.destroy', '') }}/${itemId}`;
+            } else if (itemType === 'schedule') {
+                deleteUrl = `{{ route('trip_lists.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`;
+            } else if (itemType === 'transportation') {
+                deleteUrl = `{{ route('transportations.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`;
+            } else {
+                deleteUrl = `{{ route('accommodations.destroy', ['trip_plan' => $tripPlan->id, '']) }}/${itemId}`;
+            }
+
+            form.action = deleteUrl;
         });
 
         // FullCalendarの初期化
@@ -242,14 +260,14 @@
                     return {
                         html: `<div class="event-content">
                                     <strong>${arg.event.title}</strong>
-                                    / ${arg.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                 </div>`
                     };
                 },
                 eventDidMount: function(info) {
                     // カスタムスタイルを設定
-                    info.el.style.backgroundColor = 'lightblue'; // 背景色を変更
+                    info.el.style.backgroundColor = 'white'; // 背景色を変更
                     info.el.style.border = '1px solid'; // ボーダーを追加
+                    info.el.style.borderColor = 'red';
                     info.el.style.borderRadius = '5px'; // 角を丸くする
                 }
             });

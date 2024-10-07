@@ -1,18 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>タスクの作成</h1>
-
+<h1 class="display-4 text-center">Create Task</h1>
+<div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
     <form action="{{ route('tasks.store', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" method="POST">
         @csrf
 
         <table class="table" id="tasksTable">
             <thead>
                 <tr>
-                    <th scope="col">タスクのタイトル</th>
-                    <th scope="col">タスクの説明</th>
-                    <th scope="col">操作</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -25,16 +24,17 @@
                         <textarea class="form-control" name="tasks[{{ $i }}][description]" rows="2" required></textarea>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger remove-row">削除</button>
+                        <button type="button" class="btn btn-danger remove-row">Delete</button>
                     </td>
                 </tr>
                 @endfor
             </tbody>
         </table>
-
-        <button type="button" id="addRow" class="btn btn-secondary">行を追加</button>
-        <button type="submit" class="btn btn-primary">作成</button>
-        <a href="{{ route('checklists.index', $trip_plan) }}" class="btn btn-secondary">キャンセル</a>
+        <div class="d-flex justify-content-center">
+            <button type="button" id="addRow" class="btn btn-secondary mx-2">Add row</button>
+            <button type="submit" class="btn btn-primary mx-2">Save</button>
+            <a href="{{ route('checklists.index', $trip_plan) }}" class="btn btn-secondary mx-2">Cansell</a>
+        </div>
     </form>
 </div>
 

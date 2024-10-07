@@ -1,58 +1,57 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
     <h1 class="display-4 text-center">Editing your {{ $checklist->title }}</h1>
+    <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
 
-    <form action="{{ route('checklists.update', ['trip_plan' => $trip_plan_id, 'checklist' => $checklist->id]) }}" method="POST">
-        @csrf
-        @method('PUT')
+        <form action="{{ route('checklists.update', ['trip_plan' => $trip_plan_id, 'checklist' => $checklist->id]) }}" method="POST">
+            @csrf
+            @method('PUT')
 
-        <!-- チェックリストのタイトル編集 -->
-        <div class="mb-3">
-            <label for="title" class="form-label">Checklist Title</label>
-            <input type="text" class="form-control" id="title" name="title" value="{{ $checklist->title }}" required>
-        </div>
+            <!-- チェックリストのタイトル編集 -->
+            <div class="border border-dark p-4" style="color: #000000;">
+                <input type="text" class="form-control" id="title" name="title" value="{{ $checklist->title }}" required>
+                <br>
+                <!-- 削除されたタスクのIDを保持するhiddenフィールド -->
+                <input type="hidden" name="deleted_tasks" id="deleted_tasks">
 
-        <!-- 削除されたタスクのIDを保持するhiddenフィールド -->
-        <input type="hidden" name="deleted_tasks" id="deleted_tasks">
+                <!-- タスクのテーブル -->
+                <table class="table" id="tasksTable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($checklist->tasks as $task)
+                        <tr data-task-id="{{ $task->id }}">
+                            <td>
+                                <input type="text" class="form-control" name="tasks[{{ $task->id }}][title]" value="{{ $task->title }}" required>
+                            </td>
+                            <td>
+                                <textarea class="form-control" name="tasks[{{ $task->id }}][description]" rows="2" required>{{ $task->description }}</textarea>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger remove-row" data-task-id="{{ $task->id }}">Delete</button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
-        <!-- タスクのテーブル -->
-        <table class="table" id="tasksTable">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($checklist->tasks as $task)
-                <tr data-task-id="{{ $task->id }}">
-                    <td>
-                        <input type="text" class="form-control" name="tasks[{{ $task->id }}][title]" value="{{ $task->title }}" required>
-                    </td>
-                    <td>
-                        <textarea class="form-control" name="tasks[{{ $task->id }}][description]" rows="2" required>{{ $task->description }}</textarea>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger remove-row" data-task-id="{{ $task->id }}">Delete</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
+                        ← back
+                    </button>
 
-        <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
-                ← back
-            </button>
-
-            <button type="submit" class="btn btn-primary mx-2"> Save </button>
-            <button type="button" id="addRow" class="btn btn-secondary mx-2"> Add More Rows </button>
-        </div>
-    </form>
-</div>
+                    <button type="submit" class="btn btn-primary mx-2"> Save </button>
+                    <button type="button" id="addRow" class="btn btn-secondary mx-2"> Add More Rows </button>
+                </div>
+            </div>
+        </form>
+    </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

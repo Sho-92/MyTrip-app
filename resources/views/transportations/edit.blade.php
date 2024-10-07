@@ -9,8 +9,8 @@
     <h2  class="display-4 text-center">Edit Transportation</h2>
 
     <!-- 編集フォーム -->
-    <div class="container p-4" style="max-width: 600px; margin-left: auto; margin-right: auto;">
-        <div class="border border-dark p-4">
+    <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
+        <div class="border border-dark p-4" style="color: #000000;">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>

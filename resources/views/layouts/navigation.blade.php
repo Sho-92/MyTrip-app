@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+<nav class="navbar navbar-expand-lg border-bottom" style="background: #ffffff;">
     <div class="container-fluid">
         <!-- Logo -->
         <a class="navbar-brand" href="{{ route('home') }}">
@@ -13,7 +13,7 @@
             <!-- Navigation Links -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}" style="font-size: 1.2rem; font-weight: bold;">
                         {{ __('HOME') }}
                     </a>
                 </li>

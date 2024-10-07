@@ -4,21 +4,66 @@
 <div class="container">
     <h1 class="display-4 text-center">Checklist</h1>
 
-    <!-- チェックリストのタブ -->
-    <div class="nav nav-tabs" id="myTab" role="tablist">
-        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#all" type="button">All</button>
-        @foreach ($checklists as $checklist)
-            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#{{ $checklist->id }}" type="button">{{ $checklist->title }}</button>
-        @endforeach
-    </div>
+    <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
 
-    <!-- Allの内容 -->
-    <div class="tab-content mt-3">
-        <div class="tab-pane fade show active" id="all">
-            @if($checklists->isEmpty())
-                <p>There is no checklist.</p>
-            @else
-                @foreach ($checklists as $checklist)
+        <!-- チェックリストのタブ -->
+        <div class="nav nav-tabs" id="myTab" role="tablist">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#all" type="button">All</button>
+            @foreach ($checklists as $checklist)
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#{{ $checklist->id }}" type="button">{{ $checklist->title }}</button>
+            @endforeach
+        </div>
+
+        <!-- Allの内容 -->
+        <div class="tab-content mt-3">
+            <div class="tab-pane fade show active" id="all">
+                @if($checklists->isEmpty())
+                    <p>There is no checklist.</p>
+                @else
+                    @foreach ($checklists as $checklist)
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h3>{{ $checklist->title }}</h3>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Check</th>
+                                            <th>Title</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($checklist->tasks as $task)
+                                            <tr data-task-id="{{ $task->id }}" data-checklist-id="{{ $checklist->id }}" class="@if($task->is_checked) table-success @endif">
+                                                <td>
+                                                    <input type="checkbox" class="form-check-input" @if($task->is_checked) checked @endif onchange="toggleHighlight(this)">
+                                                </td>
+                                                <td>{{ $task->title }}</td>
+                                                <td>{{ $task->description }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="text-end mt-2">
+                                    <a href="{{ route('checklists.edit', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" class="mx-2">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+                                    <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteChecklistModal" data-checklist-id="{{ $checklist->id }}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+
+            <!-- 各Tasksの内容 -->
+            @foreach ($checklists as $checklist)
+                <div class="tab-pane fade" id="{{ $checklist->id }}">
                     <div class="card mb-3">
                         <div class="card-header">
                             <h3>{{ $checklist->title }}</h3>
@@ -55,64 +100,21 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
-            @endif
-        </div>
-
-        <!-- 各Tasksの内容 -->
-        @foreach ($checklists as $checklist)
-            <div class="tab-pane fade" id="{{ $checklist->id }}">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h3>{{ $checklist->title }}</h3>
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Check</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($checklist->tasks as $task)
-                                    <tr data-task-id="{{ $task->id }}" data-checklist-id="{{ $checklist->id }}" class="@if($task->is_checked) table-success @endif">
-                                        <td>
-                                            <input type="checkbox" class="form-check-input" @if($task->is_checked) checked @endif onchange="toggleHighlight(this)">
-                                        </td>
-                                        <td>{{ $task->title }}</td>
-                                        <td>{{ $task->description }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="text-end mt-2">
-                            <a href="{{ route('checklists.edit', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" class="mx-2">
-                                <i class="fas fa-edit"></i>
-                            </a>
-
-                            <a href="#" class="mx-2" data-bs-toggle="modal" data-bs-target="#deleteChecklistModal" data-checklist-id="{{ $checklist->id }}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </div>
-                    </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
 
-            <!-- チェックリスト追加ボタン -->
-            <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
-                    ← back
-                </button>
+                <!-- チェックリスト追加ボタン -->
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
+                        ← back
+                    </button>
 
-                <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#addChecklistModal">
-                    Add Checklist
-                </button>
-            </div>
+                    <button type="button" class="btn mx-2" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;" data-bs-toggle="modal" data-bs-target="#addChecklistModal">
+                        Add Checklist
+                    </button>
+                </div>
+        </div>
     </div>
-
 
     <!-- チェックリスト追加モーダル -->
     <div class="modal fade" id="addChecklistModal" tabindex="-1" aria-labelledby="addChecklistModalLabel" aria-hidden="true">
@@ -120,11 +122,11 @@
             <form action="{{ route('checklists.store', ['trip_plan' => $trip_plan->id]) }}" method="POST">
                 @csrf
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="color: #000;">
                         <h5 class="modal-title" id="addChecklistModalLabel">Add new checklist</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="color: #000;">
                         <div class="mb-3">
                             <label for="title" class="form-label">Checklist Title</label>
                             <input type="text" class="form-control" id="title" name="title" required>
