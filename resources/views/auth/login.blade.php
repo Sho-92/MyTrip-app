@@ -9,18 +9,18 @@
 
         <!-- Email Address -->
         <div class="mb-3 text-center">
-            <input id="email" class="form-control d-inline-block w-75 mx-auto" type="email" name="email" :value="old('email')" required autofocus placeholder="Email" autocomplete="username" />
+            <input id="email" class="form-control w-75 mx-auto" type="email" name="email" :value="old('email')" required autofocus placeholder="Email" autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
         </div>
 
         <!-- Password -->
         <div class="mb-3 text-center">
-            <input id="password" class="form-control d-inline-block w-75 mx-auto" type="password" name="password" required placeholder="Password" autocomplete="current-password" />
+            <input id="password" class="form-control w-75 mx-auto" type="password" name="password" required placeholder="Password" autocomplete="current-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2 text-danger" />
         </div>
 
         <!-- Remember Me -->
-        <div class="form-check mb-3 d-flex align-items-center justify-content-center">
+        <div class="form-check mb-3 text-center">
             <input id="remember_me" type="checkbox" class="form-check-input me-2" name="remember">
             <label for="remember_me" class="form-check-label">{{ __('Remember me') }}</label>
         </div>

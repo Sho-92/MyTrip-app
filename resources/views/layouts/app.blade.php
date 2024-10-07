@@ -17,7 +17,6 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
         <!-- FullCalendar CSS -->
-        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css' rel='stylesheet' />
 
 
         <!-- Google Maps APIの読み込み -->
@@ -28,7 +27,7 @@
 
     </head>
     <body>
-        <div id="app" class="d-flex flex-column min-vh-100 bg-light">
+        <div class="d-flex flex-column min-vh-100 bg-light">
             @include('layouts.navigation')
 
             <!-- Page Heading -->

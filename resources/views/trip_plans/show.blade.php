@@ -257,23 +257,6 @@
             calendar.render(); // カレンダーを描画
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-        console.log('Google Maps APIが初期化されました');
-        if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key={{ config('services.google.api_key') }}&libraries=places&callback=initMap`;
-            script.async = true;
-            script.onload = function() {
-                console.log("Google Maps APIのスクリプトが読み込まれました。");
-            };
-            script.onerror = function() {
-                console.error("Google Maps APIの読み込み中にエラーが発生しました。");
-            };
-            document.head.appendChild(script);
-        } else {
-            initMap(); // すでに読み込まれている場合はinitMapを呼び出す
-        }
-
         // 地図の初期化関数
         window.initMap = function() {
             var location = {lat: 35.6895, lng: 139.6917};  // 東京の座標
@@ -340,20 +323,6 @@
             });
         }
 
-        // Google Maps APIのスクリプトを非同期で読み込む
-        if (typeof google === 'undefined' || typeof google.maps === 'undefined') {
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key={{ config('services.google.api_key') }}&libraries=places&callback=initMap`;
-            script.async = true;
-            script.onload = function() {
-                console.log("Google Maps APIのスクリプトが読み込まれました。");
-            };
-            script.onerror = function() {
-                console.error("Google Maps APIの読み込み中にエラーが発生しました。");
-            };
-            document.head.appendChild(script);
-        }
-    });
 
 
 

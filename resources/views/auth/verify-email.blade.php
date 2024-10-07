@@ -4,7 +4,7 @@
     </div>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
+        <div class="mb-4 font-medium text-sm text-success">
             {{ __('A new verification link has been sent to the email address you provided during registration.') }}
         </div>
     @endif
@@ -13,20 +13,17 @@
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
 
-            <div>
-                <button type="submit" class="btn btn-primary">
-                    {{ __('Resend Verification Email') }}
-                </button>
-            </div>
+            <button type="submit" class="btn btn-primary">
+                {{ __('Resend Verification Email') }}
+            </button>
         </form>
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
 
-            <button type="submit" class="btn btn-link text-sm text-gray-600 hover:text-gray-900 rounded-md">
+            <button type="submit" class="btn btn-link text-decoration-none text-gray-600 hover:text-gray-900 rounded-md">
                 {{ __('Log Out') }}
             </button>
         </form>
     </div>
 </x-guest-layout>
-
