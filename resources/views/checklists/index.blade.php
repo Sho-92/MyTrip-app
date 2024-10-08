@@ -4,7 +4,7 @@
 <div class="container">
     <h1 class="display-4 text-center">Checklist</h1>
 
-    <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
+    <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
 
         <!-- チェックリストのタブ -->
         <div class="nav nav-tabs" id="myTab" role="tablist">
@@ -148,11 +148,11 @@
                 @csrf
                 @method('DELETE')
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="color: #000;">
                         <h5 class="modal-title" id="deleteChecklistModalLabel">Confirm Deletion</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" style="color: #000;">
                         Are you sure you want to delete this? This action cannot be undone.
                     </div>
                     <div class="modal-footer">

@@ -8,7 +8,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="container mx-auto space-y-6"> <!-- max-w-7xlをcontainerに変更 -->
+        <div  class="container border border-dark p-4" style="width: 70%; max-width: 800px; margin: 50px auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;"> <!-- max-w-7xlをcontainerに変更 -->
             <div class="p-4 bg-white shadow rounded"> <!-- sm:p-8を取り除き、roundedクラスを追加 -->
                 <div class="max-w-xl">
                     @include('profile.partials.update-profile-information-form')

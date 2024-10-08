@@ -15,7 +15,7 @@
 
         <div class="mb-3">
             <label for="update_password_current_password" class="form-label">{{ __('Current Password') }}</label>
-            <input id="update_password_current_password" name="current_password" type="password" class="form-control" autocomplete="current-password" />
+            <input id="update_password_current_password" name="current_password" type="password" class="form-control" autocomplete="current-password" placeholder="Enter your current password" />
             @if ($errors->updatePassword->has('current_password'))
                 <div class="text-danger">{{ $errors->updatePassword->first('current_password') }}</div>
             @endif
@@ -23,7 +23,7 @@
 
         <div class="mb-3">
             <label for="update_password_password" class="form-label">{{ __('New Password') }}</label>
-            <input id="update_password_password" name="password" type="password" class="form-control" autocomplete="new-password" />
+            <input id="update_password_password" name="password" type="password" class="form-control" autocomplete="new-password" placeholder="Enter a new password" />
             @if ($errors->updatePassword->has('password'))
                 <div class="text-danger">{{ $errors->updatePassword->first('password') }}</div>
             @endif
@@ -31,7 +31,7 @@
 
         <div class="mb-3">
             <label for="update_password_password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
-            <input id="update_password_password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password" />
+            <input id="update_password_password_confirmation" name="password_confirmation" type="password" class="form-control" autocomplete="new-password" placeholder="Confirm your new password" />
             @if ($errors->updatePassword->has('password_confirmation'))
                 <div class="text-danger">{{ $errors->updatePassword->first('password_confirmation') }}</div>
             @endif

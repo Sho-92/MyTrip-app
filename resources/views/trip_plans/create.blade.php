@@ -6,7 +6,7 @@
 
 @section('content')
     <h1 class="display-4 text-center">Add New Trip Plan</h1>
-    <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin: 0 auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
+    <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
         <div class="border border-dark p-4" style="color: #000000;">
             <!-- エラーメッセージの表示 -->
             @if ($errors->any())
