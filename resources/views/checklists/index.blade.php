@@ -18,7 +18,7 @@
         <div class="tab-content mt-3">
             <div class="tab-pane fade show active" id="all">
                 @if($checklists->isEmpty())
-                    <p>There is no checklist.</p>
+                    <p style="color: #000;">There is no checklist.</p>
                 @else
                     @foreach ($checklists as $checklist)
                         <div class="card mb-3">
@@ -105,12 +105,12 @@
 
                 <!-- チェックリスト追加ボタン -->
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
-                        ← back
+                    <button type="button" class="btn btn-secondary mx-2" onclick="window.location.href='{{ route('trip_plans.show', $trip_plan->id) }}'">
+                        <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
                     </button>
 
                     <button type="button" class="btn mx-2" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;" data-bs-toggle="modal" data-bs-target="#addChecklistModal">
-                        Add Checklist
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Checklist
                     </button>
                 </div>
         </div>
@@ -134,7 +134,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add</button>
                     </div>
                 </div>
             </form>

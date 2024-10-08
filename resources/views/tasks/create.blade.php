@@ -31,9 +31,9 @@
             </tbody>
         </table>
         <div class="d-flex justify-content-center">
-            <button type="button" id="addRow" class="btn btn-secondary mx-2">Add row</button>
+            <a href="{{ route('checklists.index', $trip_plan) }}" class="btn btn-secondary mx-2"><i class="bi bi-x-circle" style="margin-right: 5px;"></i>Cansell</a>
             <button type="submit" class="btn btn-primary mx-2">Save</button>
-            <a href="{{ route('checklists.index', $trip_plan) }}" class="btn btn-secondary mx-2">Cansell</a>
+            <button type="button" id="addRow" class="btn btn-secondary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i> Add More Rows </button>
         </div>
     </form>
 </div>

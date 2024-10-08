@@ -40,12 +40,24 @@ class TripPlanController extends Controller
          // 該当の旅行プランを取得し、そのプランに紐づくリストを一緒に取得
         $tripPlan = TripPlan::with(['tripLists', 'transportations', 'accommodations', 'checklists'])->findOrFail($id);
 
+        // アイコンの配列を定義
+        $transportationIcons = [
+            'plane' => 'bi bi-airplane-engines',     // 飛行機
+            'train' => 'bi bi-train-front',  // 電車
+            'bus' => 'bi bi-bus-front',      // バス
+            'car' => 'bi bi-car-front',      // 車
+            'bicycle' => 'bi bi-bicycle',    // 自転車
+            'walking' => 'bi bi-person-walking',     // 歩行
+            'other' => 'bi bi-globe',        // その他
+        ];
+
         return view('trip_plans.show',[
             'tripPlan' => $tripPlan,
             'tripLists' => $tripPlan->tripLists,
             'transportations' => $tripPlan->transportations,
             'accommodations' => $tripPlan->accommodations,
             'checklists' => $tripPlan->checklists,
+            'transportationIcons' => $transportationIcons,
         ]);
 
     }

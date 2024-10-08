@@ -69,10 +69,10 @@
                     <ul class="list-group">
                         @forelse ($tripLists as $tripList)
                             <li class="list-group-item">
-                                <strong>{{ $tripList->date }}</strong> /
-                                {{ $tripList->start_time ? $tripList->start_time : 'Start Time' }} -
-                                {{ $tripList->end_time ? $tripList->end_time : 'End Time' }} /
-                                {{ $tripList->destination }}<br>
+                                <strong>{{ $tripList->destination }}</strong><br>
+                                <i class="bi bi-calendar3" style="margin-right: 5px;"></i>{{ $tripList->date }}
+                                <i class="bi bi-clock" style="margin-right: 5px;"></i>{{ $tripList->start_time ? $tripList->start_time : 'Start Time' }} -
+                                {{ $tripList->end_time ? $tripList->end_time : 'End Time' }}<br>
                                 Memo: {{ $tripList->notes }}<br>
                                 <div class="text-end mt-2">
                                     <a href="{{ route('trip_lists.edit', [$tripPlan->id, $tripList->id]) }}" class="mx-2">
@@ -88,39 +88,30 @@
                         @endforelse
                     </ul>
                 </div>
-                <br>
-                <a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Create a New Schedule</a>
+
+                <div class="text-center mt-4">
+                    <a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Create a New Schedule</a>
+                </div>
             </div>
         </div>
 
         <!-- Right Column: Accommodations and Checklists -->
         <div class="col-md-5" style="flex: 1;">
         <!-- Transportation Details Section -->
-            <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 30px auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 400px;">
+            <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 30px auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 450px;">
                 <h2 class="display-6 text-center " style=" margin-bottom: 10px; color: #000000;">Transportations</h2>
 
                 <div style="flex-grow: 1; overflow-y: auto; border: 1px solid #000; border-radius: 10px; padding: 20px; color: #000;">
                     <ul class="list-group">
                         @forelse($transportations as $transportation)
                             <li class="list-group-item">
-                                <strong>{{ $transportation->departure_location }}</strong> to <strong>{{ $transportation->arrival_location }}</strong>
-                                at {{ $transportation->departure_time }} - {{ $transportation->arrival_time }}
-                                on {{ $transportation->date }}
-                                @php
-                                    $transportationIcons = [
-                                        'plane' => '🛩️',
-                                        'train' => '🚄',
-                                        'bus' => '🚌',
-                                        'car' => '🚗',
-                                        'bicycle' => '🚲',
-                                        'walking' => '🚶',
-                                        'other' => '🌍',
-                                    ];
-                                @endphp
-                                {{ isset($transportationIcons[$transportation->transportation_mode]) ? $transportationIcons[$transportation->transportation_mode] : 'Not Specified' }}
+                                <i class="{{ $transportationIcons[$transportation->transportation_mode] ?? 'bi bi-question' }} fs-4"></i>
+                                <strong>{{ $transportation->departure_location }}</strong> to <strong>{{ $transportation->arrival_location }}</strong><br>
+                                <i class="bi bi-calendar3" style="margin-right: 5px;"></i>{{ $transportation->date }}
+                                <i class="bi bi-clock" style="margin-right: 5px;"></i>{{ $transportation->departure_time }} - {{ $transportation->arrival_time }}
                                 <br>Memo: {{ $transportation->notes }}
                                 <br>
-
                                 <div class="text-end mt-2">
                                     <a href="{{ route('transportations.edit', ['trip_plan' => $tripPlan->id, 'transportation' => $transportation->id]) }}" class="mx-2">
                                         <i class="fas fa-edit"></i>
@@ -136,8 +127,11 @@
                         @endforelse
                     </ul>
                 </div>
-                <br>
-                <a href="{{ route('transportations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Add Transportation</a>
+
+                <div class="text-center mt-4">
+                    <a href="{{ route('transportations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Transportation</a>
+                </div>
             </div>
 
             <!-- Checklists Section -->
@@ -148,15 +142,18 @@
                     <ul class="list-group">
                         @forelse($tripPlan->checklists as $checklist)
                             <li class="list-group-item">
-                                <strong>{{ $checklist->title }}</strong>
+                                <i class="bi bi-list-check" style="margin-right: 5px;"></i><strong>{{ $checklist->title }}</strong>
                             </li>
                         @empty
                             <p>No checklists available for this trip.</p>
                         @endforelse
                     </ul>
                 </div>
-                <br>
-                <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Add Checklist</a>
+
+                <div class="text-center mt-4">
+                    <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Checklist</a>
+                </div>
             </div>
         </div>
     </div>
@@ -202,7 +199,8 @@
                     </ul>
                 </div>
                 <div class="text-center mt-4" style="flex-shrink: 0;">
-                    <a href="{{ route('accommodations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">Add Accommodation</a>
+                    <a href="{{ route('accommodations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Accommodation</a>
                 </div>
             </div>
         </div>
@@ -211,7 +209,7 @@
 
     <div class="text-center mt-4">
         <button type="button" class="btn btn-secondary mx-2 mb-3" onclick="window.history.back()">
-            ← back
+            <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
         </button>
     </div>
 

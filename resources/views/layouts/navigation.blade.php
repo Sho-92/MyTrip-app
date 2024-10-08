@@ -22,19 +22,19 @@
             <!-- Settings Dropdown -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ Auth::user()->name }}
+                    <i class="bi bi-person-circle" style="margin-right: 5px;"></i> {{ Auth::user()->name }}
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li>
                         <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                            {{ __('Profile') }}
+                            <i class="bi bi-file-earmark-person-fill" style="margin-right: 5px;"></i>{{ __('Profile') }}
                         </a>
                     </li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button type="submit" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                <i class="bi bi-box-arrow-right" style="margin-right: 5px;"></i>{{ __('Log Out') }}
                             </button>
                         </form>
                     </li>

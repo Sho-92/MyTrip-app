@@ -16,10 +16,16 @@
             <x-input-error :messages="$errors->get('email')" class="mt-2 text-danger" />
         </div>
 
-        <div class="d-flex justify-content-end mt-4">
+        <div class="d-flex justify-content-center mt-4">
             <button type="submit" class="btn btn-primary">
                 {{ __('Email Password Reset Link') }}
             </button>
         </div>
     </form>
+
+    <div class="d-flex justify-content-center mt-4">
+        <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
+            <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
+        </button>
+    </div>
 </x-guest-layout>

@@ -43,11 +43,11 @@
 
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
-                        ← back
+                        <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
                     </button>
 
                     <button type="submit" class="btn btn-primary mx-2"> Save </button>
-                    <button type="button" id="addRow" class="btn btn-secondary mx-2"> Add More Rows </button>
+                    <button type="button" id="addRow" class="btn btn-secondary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i> Add More Rows </button>
                 </div>
             </div>
         </form>

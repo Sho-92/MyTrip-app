@@ -47,8 +47,8 @@
                 </div><br>
 
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary  mx-2" onclick="window.history.back()">
-                        ← back
+                    <button type="button" class="btn btn-secondary  mx-2" onclick="window.location.href='{{ route('trip_plans.show', $tripPlan->id) }}'">
+                        <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
                     </button>
 
                     <button type="submit" class="btn btn-primary mx-2">Submit</button>

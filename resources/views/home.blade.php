@@ -10,11 +10,13 @@
     <div class="container border border-dark p-4" style="width: 50%; max-width: 800px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
         <h2 class="display-6 text-center" style="color: #000000;">Your Next Trip</h2>
 
-        <ul class="list-group mt-4 text-center">
+        <ul class="list-group mt-4 text-center" style="max-height: 300px; overflow-y: auto;">
             @forelse($tripPlans as $tripPlan)
                 <li class="list-group-item">
                     <a href="{{ route('trip_plans.show', $tripPlan->id) }}">
-                        <strong>{{ $tripPlan->title }}</strong><br>
+                        <h1 class="display-6" style="font-weight: bold;">
+                            <strong>{{ $tripPlan->title }}</strong>
+                        </h1><br>
                         <span class="text-muted">
                             ({{ \Carbon\Carbon::parse($tripPlan->start_date)->format('Y-m-d') }} - {{ \Carbon\Carbon::parse($tripPlan->end_date)->format('Y-m-d') }})
                         </span>
@@ -28,7 +30,7 @@
         </ul>
         <div class="text-center mt-4">
             <a href="{{ route('trip_plans.create') }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
-                Add New Trip Plan
+                <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add New Trip Plan
             </a>
         </div>
 

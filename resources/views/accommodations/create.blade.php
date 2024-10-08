@@ -77,11 +77,11 @@
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary mx-2" onclick="window.history.back()">
-                        ← back
+                    <button type="button" class="btn btn-secondary mx-2" onclick="window.location.href='{{ route('trip_plans.show', $trip_plan->id) }}'">
+                        <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
                     </button>
 
-                    <button type="submit" class="btn btn-primary mx-2">Add Accommodation</button>
+                    <button type="submit" class="btn btn-primary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Accommodation</button>
                 </div>
             </form>
         </div>
