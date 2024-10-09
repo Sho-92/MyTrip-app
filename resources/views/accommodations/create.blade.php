@@ -88,16 +88,15 @@
     </div>
 </div>
 
-<!-- Google Places APIの読み込み -->
+<!-- Google Places API -->
 <script>
     function initAutocomplete() {
         const input = document.getElementById('address');
         const autocomplete = new google.maps.places.Autocomplete(input);
 
-        // オートコンプリートが選択された時の処理
         autocomplete.addListener('place_changed', function() {
                 const place = autocomplete.getPlace();
-                console.log(place); // 選択された場所の情報をコンソールに表示
+                console.log(place); 
             });
     }
 

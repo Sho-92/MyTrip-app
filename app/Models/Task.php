@@ -11,7 +11,6 @@ class Task extends Model
 
     protected $fillable = ['title', 'description', 'is_checked', 'checklist_id'];
 
-    // TaskはChecklistに属する
     public function checklist()
     {
         return $this->belongsTo(Checklist::class);

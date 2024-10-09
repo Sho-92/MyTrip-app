@@ -37,18 +37,16 @@ class TripPlanController extends Controller
 
     public function show($id)
     {
-         // 該当の旅行プランを取得し、そのプランに紐づくリストを一緒に取得
         $tripPlan = TripPlan::with(['tripLists', 'transportations', 'accommodations', 'checklists'])->findOrFail($id);
 
-        // アイコンの配列を定義
         $transportationIcons = [
-            'plane' => 'bi bi-airplane-engines',     // 飛行機
-            'train' => 'bi bi-train-front',  // 電車
-            'bus' => 'bi bi-bus-front',      // バス
-            'car' => 'bi bi-car-front',      // 車
-            'bicycle' => 'bi bi-bicycle',    // 自転車
-            'walking' => 'bi bi-person-walking',     // 歩行
-            'other' => 'bi bi-globe',        // その他
+            'plane' => 'bi bi-airplane-engines',
+            'train' => 'bi bi-train-front',
+            'bus' => 'bi bi-bus-front',
+            'car' => 'bi bi-car-front',
+            'bicycle' => 'bi bi-bicycle',
+            'walking' => 'bi bi-person-walking',
+            'other' => 'bi bi-globe',        
         ];
 
         return view('trip_plans.show',[
@@ -96,8 +94,5 @@ class TripPlanController extends Controller
 
         return redirect()->route('home')->with('success', 'Your travel plan has been deleted.');
     }
-
-
-    //public function events(){}
 
 }

@@ -8,18 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class TripPlan extends Model
 {
     use HasFactory;
-    /**
-     * モデルで操作するテーブル名
-     *
-     * @var string
-     */
-    protected $table = 'trip_plans';
 
-    /**
-     * 更新可能なフィールド（カラム）
-     *
-     * @var array
-     */
+    protected $table = 'trip_plans';
 
     protected $fillable = [
         'title',
@@ -29,11 +19,6 @@ class TripPlan extends Model
         'city',
     ];
 
-    /**
-     * 日付として扱うカラム
-     *
-     * @var array
-     */
     protected $dates = [
         'start_date',
         'end_date',
@@ -45,7 +30,6 @@ class TripPlan extends Model
         return $this->belongsTo(User::class);
     }
 
-    // TripPlan は 複数の TripList を持つ
     public function tripLists()
     {
         return $this->hasMany(TripList::class);
@@ -65,5 +49,5 @@ class TripPlan extends Model
     {
         return $this->hasMany(Checklist::class);
     }
-    
+
 }

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('trip_lists', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trip_plan_id')->constrained()->onDelete('cascade');
-            $table->date('date'); // 旅行の日付
-            $table->string('destination'); // 目的地
-            $table->time('start_time')->nullable(); // 開始時間
-            $table->time('end_time')->nullable(); // 終了時間
-            $table->text('notes')->nullable(); // 備考欄
+            $table->date('date');
+            $table->string('destination');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->text('notes')->nullable(); 
 
             $table->timestamps();
         });

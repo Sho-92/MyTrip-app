@@ -8,7 +8,6 @@
 <div class="container">
     <h2  class="display-4 text-center">Edit Transportation</h2>
 
-    <!-- 編集フォーム -->
     <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
         <div class="border border-dark p-4" style="color: #000000;">
             @if ($errors->any())
@@ -25,37 +24,31 @@
                 @csrf
                 @method('PUT')
 
-                <!-- 日付 -->
                 <div class="form-group">
                     <label for="date">Date</label>
                     <input type="date" id="date" name="date" value="{{ old('date', $transportation->date) }}" class="form-control" required>
                 </div>
 
-                <!-- 出発時間 -->
                 <div class="form-group">
                     <label for="departure_time">Departure Time</label>
                     <input type="time" id="departure_time" name="departure_time" value="{{ old('departure_time', $transportation->departure_time) }}" class="form-control" required>
                 </div>
 
-                <!-- 到着時間 -->
                 <div class="form-group">
                     <label for="arrival_time">Arrival Time</label>
                     <input type="time" id="arrival_time" name="arrival_time" value="{{ old('arrival_time', $transportation->arrival_time) }}" class="form-control">
                 </div>
 
-                <!-- 出発地 -->
                 <div class="form-group">
                     <label for="departure_location">Departure Location</label>
                     <input type="text" id="departure_location" name="departure_location" value="{{ old('departure_location', $transportation->departure_location) }}" class="form-control" required>
                 </div>
 
-                <!-- 到着地 -->
                 <div class="form-group">
                     <label for="arrival_location">Arrival Location</label>
                     <input type="text" id="arrival_location" name="arrival_location" value="{{ old('arrival_location', $transportation->arrival_location) }}" class="form-control" required>
                 </div>
 
-                <!-- 移動手段 -->
                 <div class="form-group">
                     <label for="transportation_mode">Transportation Mode</label>
                     <select id="transportation_mode" name="transportation_mode" class="form-control" required>
@@ -69,13 +62,11 @@
                     </select>
                 </div>
 
-                <!-- 備考 -->
                 <div class="form-group">
                     <label for="notes">Notes</label>
                     <textarea id="notes" name="notes" class="form-control">{{ old('notes', $transportation->notes) }}</textarea>
                 </div><br>
 
-                <!-- 送信ボタン -->
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-secondary mx-2" onclick="window.location.href='{{ route('trip_plans.show', $tripPlan->id) }}'">
                         <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back

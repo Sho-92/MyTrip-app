@@ -8,7 +8,7 @@
     <h1 class="display-4 text-center">Add New Trip Plan</h1>
     <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
         <div class="border border-dark p-4" style="color: #000000;">
-            <!-- エラーメッセージの表示 -->
+
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -22,13 +22,11 @@
             <form action="{{ route('trip_plans.store') }}" method="POST">
                 @csrf
 
-                <!-- タイトルの入力 -->
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" class="form-control" value="{{ old('title') }}" required>
                 </div>
 
-                <!-- 日程の入力 -->
                 <div class="form-group">
                     <label for="start_date">Start Date:</label>
                     <input type="date" id="start_date" name="start_date" class="form-control" value="{{ old('start_date') }}" required>
@@ -39,7 +37,6 @@
                     <input type="date" id="end_date" name="end_date" class="form-control" value="{{ old('end_date') }}" required>
                 </div>
 
-                <!-- 場所の入力 -->
                 <div class="form-group">
                     <label for="country">Country:</label>
                     <input type="text" id="country" name="country" class="form-control" value="{{ old('country') }}" required>
@@ -50,7 +47,6 @@
                     <input type="text" id="city" name="city" class="form-control" value="{{ old('city') }}" required>
                 </div><br>
 
-                <!-- 送信ボタン -->
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-secondary  mx-2" onclick="window.history.back()">
                         <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
@@ -63,7 +59,7 @@
     </div>
 
 
-    <!-- Google Places APIの読み込み -->
+    <!-- Google Places API -->
     <script>
         function initialize() {
             var countryInput = document.getElementById('country');
@@ -88,7 +84,6 @@
             });
         }
 
-        // Google Places APIのロード後に初期化
         window.onload = initialize;
     </script>
 

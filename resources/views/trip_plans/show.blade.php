@@ -33,7 +33,7 @@
     </div>
 
 
-    <!-- 共通の削除モーダル -->
+    <!-- Common delete modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -59,7 +59,7 @@
 
 
     <div class="row" style="display: flex; flex-wrap: wrap;">
-        <!-- Left Column: Schedule - Lists and Transportation Details -->
+        <!-- Left Column: Schedule - Lists -->
         <div class="col-md-7" style="flex: 1;">
             <!-- Schedule - Lists Section -->
             <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 30px auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 780px;">
@@ -96,9 +96,9 @@
             </div>
         </div>
 
-        <!-- Right Column: Accommodations and Checklists -->
+        <!-- Right Column: Transportation and Checklists -->
         <div class="col-md-5" style="flex: 1;">
-        <!-- Transportation Details Section -->
+        <!-- Transportation Section -->
             <div class="container border border-dark p-4" style="width: 90%; max-width: 800px; margin: 30px auto; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative; display: flex; flex-direction: column; height: 100vh; max-height: 450px;">
                 <h2 class="display-6 text-center " style=" margin-bottom: 10px; color: #000000;">Transportations</h2>
 
@@ -158,6 +158,7 @@
         </div>
     </div>
 
+     <!-- Bottom column: Accommodations section -->
     <div class="container border border-dark p-4" style="width: 100%; max-width: 1000px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9; position: relative;">
         <h2 class="display-6 text-center" style="margin-bottom: 20px; color: #000000;">Accommodations</h2>
 
@@ -218,7 +219,7 @@
     <script>
         const deleteModal = document.getElementById('deleteModal');
         deleteModal.addEventListener('show.bs.modal', event => {
-            const button = event.relatedTarget; // ボタンがクリックされたときの情報を取得
+            const button = event.relatedTarget;
             const itemType = button.getAttribute('data-item-type');
             const itemId = button.getAttribute('data-item-id');
 
@@ -241,25 +242,23 @@
             form.action = deleteUrl;
         });
 
-        // FullCalendarの初期化
+        // Initialization of FullCalendar
         document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar'); // カレンダーを表示する要素を取得
-            // Laravelからのスケジュールデータを取得
-            const tripLists = @json($tripLists); // LaravelのデータをJavaScriptに渡す
+            var calendarEl = document.getElementById('calendar');
 
-            // FullCalendarの初期化
+            const tripLists = @json($tripLists);
+
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 events: tripLists.map(function(tripList) {
                     return {
-                        title: tripList.destination, // タイトル
-                        start: tripList.date + 'T' + tripList.start_time, // 開始日時
-                        end: tripList.date + 'T' + tripList.end_time, // 終了日時
-                        description: tripList.notes // メモなど、必要な情報を追加
+                        title: tripList.destination,
+                        start: tripList.date + 'T' + tripList.start_time,
+                        end: tripList.date + 'T' + tripList.end_time,
+                        description: tripList.notes
                     };
                 }),
                 eventContent: function(arg) {
-                    // HTMLを使ってイベント内容をカスタマイズ
                     return {
                         html: `<div class="event-content">
                                     <strong>${arg.event.title}</strong>
@@ -267,43 +266,41 @@
                     };
                 },
                 eventDidMount: function(info) {
-                    // カスタムスタイルを設定
-                    info.el.style.backgroundColor = 'white'; // 背景色を変更
-                    info.el.style.border = '1px solid'; // ボーダーを追加
+                    info.el.style.backgroundColor = 'white';
+                    info.el.style.border = '1px solid';
                     info.el.style.borderColor = 'red';
-                    info.el.style.borderRadius = '5px'; // 角を丸くする
+                    info.el.style.borderRadius = '5px';
                 }
             });
 
-            calendar.render(); // カレンダーを描画
+            calendar.render();
         });
 
-        // 地図の初期化関数
+        // Initialization of Map
         window.initMap = function() {
-            var location = {lat: 35.6895, lng: 139.6917};  // 東京の座標
+            var location = {lat: 35.6895, lng: 139.6917};  // Tokyo
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 1.2,
                 center: location,
-                mapTypeControl: true, // 地図タイプコントロールを表示
-                mapTypeId: 'roadmap', // デフォルトの地図タイプ
-                streetViewControl: true // Street Viewコントロールを表示
+                mapTypeControl: true,
+                mapTypeId: 'roadmap',
+                streetViewControl: true // Street View
             });
 
-            // ボタンのクリックイベントを設定
             const showMapButtons = document.querySelectorAll('.show-map');
             showMapButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    const address = this.getAttribute('data-address'); // 住所を取得
-                    const hotelName = this.getAttribute('data-hotel-name'); // ホテル名を取得
-                    const checkIn = this.getAttribute('data-check-in'); // チェックイン情報を取得
-                    const checkOut = this.getAttribute('data-check-out'); // チェックアウト情報を取得
-                    const notes = this.getAttribute('data-notes'); // メモを取得
-                    displayMapForAddress(address, hotelName, checkIn, checkOut, notes); // 住所を使って地図を表示
+                    const address = this.getAttribute('data-address');
+                    const hotelName = this.getAttribute('data-hotel-name');
+                    const checkIn = this.getAttribute('data-check-in');
+                    const checkOut = this.getAttribute('data-check-out');
+                    const notes = this.getAttribute('data-notes');
+                    displayMapForAddress(address, hotelName, checkIn, checkOut, notes);
                 });
             });
         }
 
-        // 住所を地図に表示する関数
+        // display an address on a map
         function displayMapForAddress(address, hotelName, checkIn, checkOut, notes) {
             const geocoder = new google.maps.Geocoder();
             geocoder.geocode({ address: address }, function(results, status) {
@@ -315,13 +312,11 @@
                     };
                     const map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-                    // マーカーを作成
                     const marker = new google.maps.Marker({
                         position: location,
                         map: map
                     });
 
-                    // インフォウィンドウを作成
                     const infowindow = new google.maps.InfoWindow({
                         content: `
                             <div style="color: #000;">
@@ -334,7 +329,6 @@
                         `
                     });
 
-                    // マーカーをクリックした時にインフォウィンドウを表示
                     marker.addListener('click', function() {
                         infowindow.open(map, marker);
                     });
@@ -343,9 +337,5 @@
                 }
             });
         }
-
-
-
-
     </script>
 @endsection

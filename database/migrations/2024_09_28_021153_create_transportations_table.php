@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('transportations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trip_plan_id')->constrained()->onDelete('cascade'); // 旅行プランとのリレーション
-            $table->date('date'); //移動の日付
-            $table->time('departure_time'); //出発時間
-            $table->time('arrival_time')->nullable(); // 到着時間はオプション
-            $table->string('departure_location'); //出発地
-            $table->string('arrival_location'); //到着地
-            $table->string('transportation_mode'); //移動手段（例: 飛行機、電車、バス、車、徒歩、自転車、その他）
-            $table->text('notes')->nullable(); // 備考欄
+            $table->foreignId('trip_plan_id')->constrained()->onDelete('cascade');
+            $table->date('date');
+            $table->time('departure_time');
+            $table->time('arrival_time')->nullable();
+            $table->string('departure_location');
+            $table->string('arrival_location');
+            $table->string('transportation_mode');
+            $table->text('notes')->nullable(); 
             $table->timestamps();
         });
     }

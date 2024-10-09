@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for ($i = 0; $i < 3; $i++) <!-- 最初に3行用意 -->
+                @for ($i = 0; $i < 3; $i++)
                 <tr>
                     <td>
                         <input type="text" class="form-control" name="tasks[{{ $i }}][title]" required>
@@ -40,9 +40,8 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        let rowCount = {{ $i }}; // 最初の行数を設定
+        let rowCount = {{ $i }};
 
-        // 行を追加
         document.getElementById('addRow').addEventListener('click', function () {
             const tableBody = document.querySelector('#tasksTable tbody');
             const newRow = document.createElement('tr');
@@ -56,7 +55,6 @@
             rowCount++;
         });
 
-        // 行を削除
         document.addEventListener('click', function (e) {
             if (e.target && e.target.classList.contains('remove-row')) {
                 const row = e.target.closest('tr');

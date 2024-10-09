@@ -18,10 +18,9 @@ class TripList extends Model
         'end_time',
     ];
 
-    // TripList は TripPlan に属する
     public function tripPlan()
     {
         return $this->belongsTo(TripPlan::class);
     }
-    
+
 }

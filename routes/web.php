@@ -29,18 +29,13 @@ require __DIR__.'/auth.php';
 
 Route::resource('trip_plans', TripPlanController::class)->middleware('auth');
 
-// trip_plans 内の trip_lists リソースルート（ネストされたリソース）
+
 Route::prefix('trip_plans/{trip_plan}')->group(function () {
     Route::resource('trip_lists', App\Http\Controllers\TripListController::class);
-    // transportation のリソースルートを trip_plans 内にネスト
     Route::resource('transportations', App\Http\Controllers\TransportationController::class);
-    // accommodation のリソースルートを trip_plans 内にネスト
     Route::resource('accommodations', AccommodationController::class);
-    // checklists のリソースルート
     Route::resource('checklists', App\Http\Controllers\ChecklistController::class);
-    // tasks のリソースルートを checklists 内にネスト
     Route::prefix('checklists/{checklist}')->group(function () {
         Route::resource('tasks', App\Http\Controllers\TaskController::class);
     });
-
 });

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('checklists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trip_plan_id')->constrained()->onDelete('cascade'); // trip_plansに外部キーで関連付け
-            $table->string('title'); // チェックリストのタイトル
+            $table->foreignId('trip_plan_id')->constrained()->onDelete('cascade');
+            $table->string('title'); 
             $table->timestamps();
         });
 

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('checklist_id')->constrained()->onDelete('cascade'); // checklistsに外部キーで関連付け
-            $table->string('title'); // タスクのタイトルを追加
-            $table->string('description'); // タスクの説明
-            $table->boolean('is_checked')->default(false); // チェックボックスの状態を表す
+            $table->foreignId('checklist_id')->constrained()->onDelete('cascade');
+            $table->string('title');
+            $table->string('description');
+            $table->boolean('is_checked')->default(false); 
             $table->timestamps();
         });
     }

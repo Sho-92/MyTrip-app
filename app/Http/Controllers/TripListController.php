@@ -8,10 +8,8 @@ use App\Models\TripPlan;class TripListController extends Controller
 {
     public function index($tripPlanId)
     {
-        // 特定の旅行プランに関連するスケジュールを取得
         $tripLists = TripList::where('trip_plan_id', $tripPlanId)->get();
 
-        // ビューにデータを渡す
         return view('trip_lists.index', compact('tripLists', 'tripPlanId'));
     }
 
@@ -34,7 +32,6 @@ use App\Models\TripPlan;class TripListController extends Controller
 
         $tripPlan = TripPlan::findOrFail($tripPlanId);
 
-        // スケジュールを保存
         $tripList = new TripList($request->all());
         $tripList->trip_plan_id = $tripPlanId;
         $tripList->save();
@@ -43,13 +40,12 @@ use App\Models\TripPlan;class TripListController extends Controller
                          ->with('success', 'created a new schedule.');
     }
 
-    // 旅行リストの表示 (詳細)
     public function show($tripPlanId, $id)
     {
         $tripPlan = TripPlan::findOrFail($tripPlanId);
         $tripList = $tripPlan->tripLists()->where('id', $id)->firstOrFail();
 
-        return view('trip_lists.show', compact('tripPlan', 'tripList')); // ビュー名を修正
+        return view('trip_lists.show', compact('tripPlan', 'tripList'));
     }
 
     public function edit($tripPlanId, $id)
@@ -85,14 +81,11 @@ use App\Models\TripPlan;class TripListController extends Controller
 
     public function destroy($tripPlanId, $tripListId)
 {
-    // 対象の TripPlan と TripList を取得
     $tripPlan = TripPlan::findOrFail($tripPlanId);
     $tripList = $tripPlan->tripLists()->findOrFail($tripListId);
 
-    // スケジュールの削除
     $tripList->delete();
 
-    // 成功メッセージと共にリダイレクト
     return redirect()->route('trip_plans.show', $tripPlanId)
                      ->with('success', 'Schedule deleted successfully.');
 }
@@ -100,7 +93,7 @@ use App\Models\TripPlan;class TripListController extends Controller
     public function indexByTripPlan($tripPlanId)
     {
         $tripPlan = TripPlan::with('tripLists')->findOrFail($tripPlanId);
-        $tripLists = $tripPlan->tripLists; // 追加: 関連する TripList を取得
-        return view('trip_lists.index', compact('tripPlan', 'tripLists')); // ビュー名を修正
+        $tripLists = $tripPlan->tripLists; 
+        return view('trip_lists.index', compact('tripPlan', 'tripLists'));
     }
 }

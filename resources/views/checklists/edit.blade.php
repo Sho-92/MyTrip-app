@@ -8,14 +8,12 @@
             @csrf
             @method('PUT')
 
-            <!-- チェックリストのタイトル編集 -->
             <div class="border border-dark p-4" style="color: #000000;">
                 <input type="text" class="form-control" id="title" name="title" value="{{ $checklist->title }}" required>
                 <br>
-                <!-- 削除されたタスクのIDを保持するhiddenフィールド -->
+                <!-- Preserve the ID of deleted tasks -->
                 <input type="hidden" name="deleted_tasks" id="deleted_tasks">
 
-                <!-- タスクのテーブル -->
                 <table class="table" id="tasksTable">
                     <thead>
                         <tr>
@@ -55,10 +53,9 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        let rowCount = {{ count($checklist->tasks) }}; // 既存の行数を設定
-        let deletedTaskIds = []; // 削除されたタスクIDを保持する配列
+        let rowCount = {{ count($checklist->tasks) }};
+        let deletedTaskIds = [];
 
-        // 行を追加
         document.getElementById('addRow').addEventListener('click', function () {
             const tableBody = document.querySelector('#tasksTable tbody');
             const newRow = document.createElement('tr');
@@ -72,19 +69,16 @@
             rowCount++;
         });
 
-        // 行を削除
         document.addEventListener('click', function (e) {
             if (e.target && e.target.classList.contains('remove-row')) {
                 const row = e.target.closest('tr');
                 const taskId = row.getAttribute('data-task-id');
 
-                // タスクIDが存在する場合は削除リストに追加
                 if (taskId) {
                     deletedTaskIds.push(taskId);
                     document.getElementById('deleted_tasks').value = deletedTaskIds.join(',');
                 }
 
-                // 行を削除
                 row.remove();
             }
         });

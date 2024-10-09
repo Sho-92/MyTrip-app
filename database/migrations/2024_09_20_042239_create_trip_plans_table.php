@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('trip_plans', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->nullable();  // 旅行プランの名前
-            $table->text('description')->nullable();  // 詳細説明
-            $table->date('start_date');  // 旅行開始日
-            $table->date('end_date');  // 旅行終了日
-            $table->string('country');  // 国
-            $table->string('city');  // 市
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('country');
+            $table->string('city');  
             $table->timestamps();
         });
     }
