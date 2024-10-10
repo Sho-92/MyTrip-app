@@ -9,19 +9,21 @@ use App\Http\Controllers\AccommodationController;
 use App\Http\Controllers\ChecklistController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Auth\GuestLoginController;
-
+use App\Http\Controllers\AuthController;
 
 
 Route::get('/', function () {
-    return redirect()->route('login');
-});
+    return redirect()->route('home');
+})->middleware('auth');
 
 Route::get('/home', [HomeController::class, 'index'])->middleware('auth')->name('home');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 
