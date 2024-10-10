@@ -108,7 +108,7 @@
                 </button>
 
                 <button type="button" class="btn mx-2" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;" data-bs-toggle="modal" data-bs-target="#addChecklistModal">
-                    <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Checklist
+                    <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add New
                 </button>
             </div>
         </div>
@@ -121,7 +121,7 @@
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header" style="color: #000;">
-                        <h5 class="modal-title" id="addChecklistModalLabel">Add new checklist</h5>
+                        <h5 class="modal-title" id="addChecklistModalLabel">Create a New Checklist</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" style="color: #000;">
@@ -132,7 +132,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add</button>
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Create</button>
                     </div>
                 </div>
             </form>
@@ -276,7 +276,7 @@
         const button = event.relatedTarget;
         const checklistId = button.getAttribute('data-checklist-id');
         const form = document.getElementById('deleteChecklistForm');
-        form.action = `/trip_plans/{{ $trip_plan->id }}/checklists/${checklistId}`; 
+        form.action = `/trip_plans/{{ $trip_plan->id }}/checklists/${checklistId}`;
     });
 
 </script>

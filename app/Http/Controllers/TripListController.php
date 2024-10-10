@@ -73,6 +73,9 @@ use App\Models\TripPlan;class TripListController extends Controller
             'date' => $request->input('date'),
             'destination' => $request->input('destination'),
             'notes' => $request->input('notes'),
+            'start_time' => $request->input('start_time'),
+            'end_time' => $request->input('end_time'),
+
         ]);
 
         return redirect()->route('trip_plans.show', $tripPlan->id)
@@ -93,7 +96,7 @@ use App\Models\TripPlan;class TripListController extends Controller
     public function indexByTripPlan($tripPlanId)
     {
         $tripPlan = TripPlan::with('tripLists')->findOrFail($tripPlanId);
-        $tripLists = $tripPlan->tripLists; 
+        $tripLists = $tripPlan->tripLists;
         return view('trip_lists.index', compact('tripPlan', 'tripLists'));
     }
 }

@@ -30,7 +30,7 @@
         </ul>
         <div class="text-center mt-4">
             <a href="{{ route('trip_plans.create') }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
-                <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add New Trip Plan
+                <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Start a new Trip
             </a>
         </div>
 

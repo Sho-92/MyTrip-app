@@ -51,7 +51,7 @@
                         <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
                     </button>
 
-                    <button type="submit" class="btn btn-primary mx-2">Submit</button>
+                    <button type="submit" class="btn btn-primary mx-2">Create</button>
                 </div>
             </form>
         </div>

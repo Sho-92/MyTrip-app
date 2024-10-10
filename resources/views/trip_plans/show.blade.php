@@ -69,7 +69,7 @@
                     <ul class="list-group">
                         @forelse ($tripLists as $tripList)
                             <li class="list-group-item">
-                                <strong>{{ $tripList->destination }}</strong><br>
+                                <i class="bi bi-check2-square" style="margin-right: 5px;"></i><strong>{{ $tripList->destination }}</strong><br>
                                 <i class="bi bi-calendar3" style="margin-right: 5px;"></i>{{ $tripList->date }}
                                 <i class="bi bi-clock" style="margin-right: 5px;"></i>{{ $tripList->start_time ? $tripList->start_time : 'Start Time' }} -
                                 {{ $tripList->end_time ? $tripList->end_time : 'End Time' }}<br>
@@ -91,7 +91,7 @@
 
                 <div class="text-center mt-4">
                     <a href="{{ route('trip_lists.create', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
-                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Create a New Schedule</a>
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add New</a>
                 </div>
             </div>
         </div>
@@ -130,7 +130,7 @@
 
                 <div class="text-center mt-4">
                     <a href="{{ route('transportations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
-                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Transportation</a>
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add New</a>
                 </div>
             </div>
 
@@ -152,7 +152,7 @@
 
                 <div class="text-center mt-4">
                     <a href="{{ route('checklists.index', $tripPlan->id) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
-                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Checklist</a>
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add New</a>
                 </div>
             </div>
         </div>
@@ -201,7 +201,7 @@
                 </div>
                 <div class="text-center mt-4" style="flex-shrink: 0;">
                     <a href="{{ route('accommodations.create', ['trip_plan' => $tripPlan->id]) }}" class="btn" style="background: linear-gradient(135deg, #ff7e30, #ffb84d); color: white; border: none;">
-                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Accommodation</a>
+                        <i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add New</a>
                 </div>
             </div>
         </div>
@@ -209,7 +209,7 @@
 
 
     <div class="text-center mt-4">
-        <button type="button" class="btn btn-secondary mx-2 mb-3" onclick="window.history.back()">
+        <button type="button" class="btn btn-secondary mx-2 mb-3" onclick="window.location.href='{{ route('home', $tripPlan->id) }}'">
             <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
         </button>
     </div>

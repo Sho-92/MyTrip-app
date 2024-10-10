@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h1 class="display-4 text-center">Create Task</h1>
+<h1 class="display-4 text-center">Create a New Task</h1>
 <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
     <form action="{{ route('tasks.store', ['trip_plan' => $trip_plan->id, 'checklist' => $checklist->id]) }}" method="POST">
         @csrf
@@ -32,7 +32,7 @@
         </table>
         <div class="d-flex justify-content-center">
             <a href="{{ route('checklists.index', $trip_plan) }}" class="btn btn-secondary mx-2"><i class="bi bi-x-circle" style="margin-right: 5px;"></i>Cansell</a>
-            <button type="submit" class="btn btn-primary mx-2">Save</button>
+            <button type="submit" class="btn btn-primary mx-2"> Create </button>
             <button type="button" id="addRow" class="btn btn-secondary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i> Add More Rows </button>
         </div>
     </form>

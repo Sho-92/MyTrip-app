@@ -6,7 +6,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="display-4 text-center">Add Accommodations</h1>
+    <h1 class="display-4 text-center">Create a New Accommodation</h1>
 
     <div class="container border border-dark p-4" style="width: 80%; max-width: 800px; margin-bottom: 50px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
         <div class="border border-dark p-4" style="color: #000000;">
@@ -81,7 +81,7 @@
                         <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
                     </button>
 
-                    <button type="submit" class="btn btn-primary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Add Accommodation</button>
+                    <button type="submit" class="btn btn-primary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Create</button>
                 </div>
             </form>
         </div>
@@ -96,7 +96,7 @@
 
         autocomplete.addListener('place_changed', function() {
                 const place = autocomplete.getPlace();
-                console.log(place); 
+                console.log(place);
             });
     }
 

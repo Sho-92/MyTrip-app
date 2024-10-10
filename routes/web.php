@@ -11,6 +11,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\Auth\GuestLoginController;
 
 
+
 Route::get('/', function () {
     return redirect()->route('login');
 });
@@ -23,9 +24,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 Route::post('/guest-login', [GuestLoginController::class, 'login'])->name('guest.login');
 
 require __DIR__.'/auth.php';
+
 
 Route::resource('trip_plans', TripPlanController::class)->middleware('auth');
 

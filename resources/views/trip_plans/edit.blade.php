@@ -53,7 +53,7 @@
                         <i class="bi bi-arrow-left-circle" style="margin-right: 5px;"></i>back
                     </button>
 
-                    <button type="submit" class="btn btn-primary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Update Trip Plan</button>
+                    <button type="submit" class="btn btn-primary mx-2"><i class="bi bi-plus-circle" style="margin-right: 5px;"></i>Update</button>
                 </div>
             </form>
         </div>
