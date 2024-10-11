@@ -11,10 +11,13 @@ class ChecklistController extends Controller
     public function index(TripPlan $trip_plan)
     {
         $checklists = $trip_plan->checklists;
+        $tasks = Task::whereIn('checklist_id', $checklists->pluck('id'))->get(); // すべてのチェックリストのタスクを取得
 
         return view('checklists.index', [
             'trip_plan' => $trip_plan,
             'checklists' => $checklists,
+            'tasks' => $tasks, // タスクをビューに渡す
+            'checklist' => $checklists->first(),
         ]);
     }
 

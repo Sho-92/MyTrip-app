@@ -46,7 +46,7 @@ class TransportationController extends Controller
      }
 
 
-    public function show(Transportation $transportation): View
+    public function show(TripPlan $trip_plan, Transportation $transportation): View
     {
         return view('transportations.show', compact('transportation'));
     }

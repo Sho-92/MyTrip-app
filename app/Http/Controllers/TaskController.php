@@ -9,21 +9,18 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index(Checklist $checklist)
+    public function index(TripPlan $tripPlan, Checklist $checklist)
     {
         $tasks = $checklist->tasks()->get();
         return view('tasks.index', compact('checklist', 'tasks'));
     }
 
-    public function create($trip_plan_id, $checklist_id)
+    public function create(TripPlan $tripPlan, Checklist $checklist)
     {
-        $trip_plan = TripPlan::findOrFail($trip_plan_id);
-        $checklist = Checklist::findOrFail($checklist_id);
-
-        return view('tasks.create', compact('trip_plan', 'checklist'));
+        return view('tasks.create', compact('tripPlan', 'checklist'));
     }
 
-    public function store(Request $request, $trip_plan_id, Checklist $checklist)
+    public function store(Request $request, TripPlan $tripPlan, Checklist $checklist)
     {
         $request->validate([
             'tasks.*.title' => 'required|string|max:255',
@@ -35,10 +32,11 @@ class TaskController extends Controller
                 'title' => $taskData['title'],
                 'description' => $taskData['description'],
                 'is_checked' => isset($taskData['is_checked']) ? $taskData['is_checked'] : false,
+                'checklist_id' => $checklist->id,
             ]);
         }
 
-        return redirect()->route('checklists.index', $trip_plan_id)
+        return redirect()->route('checklists.index', $tripPlan->id)
                         ->with('success', 'Added Task.');
     }
 
@@ -47,7 +45,7 @@ class TaskController extends Controller
         return view('tasks.edit', compact('checklist', 'task'));
     }
 
-    public function update(Request $request, Checklist $checklist, Task $task)
+    public function update(Request $request, TripPlan $tripPlan, Checklist $checklist, Task $task)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -60,14 +58,14 @@ class TaskController extends Controller
             'is_checked' => $request->has('is_checked'),
         ]);
 
-        return redirect()->route('checklists.show', $checklist->id)
+        return redirect()->route('trip_plans.checklists.index', [$tripPlan->id, $checklist->id])
                      ->with('success', 'Added Task.');
     }
 
-    public function destroy(Checklist $checklist, Task $task)
+    public function destroy(TripPlan $tripPlan, Checklist $checklist, Task $task)
     {
         $task->delete();
 
-        return redirect()->route('tasks.index', $checklist);
+        return redirect()->route('trip_plans.checklists.index', [$tripPlan, $checklist]);
     }
 }

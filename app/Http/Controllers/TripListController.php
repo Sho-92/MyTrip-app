@@ -83,15 +83,15 @@ use App\Models\TripPlan;class TripListController extends Controller
     }
 
     public function destroy($tripPlanId, $tripListId)
-{
-    $tripPlan = TripPlan::findOrFail($tripPlanId);
-    $tripList = $tripPlan->tripLists()->findOrFail($tripListId);
+    {
+        $tripPlan = TripPlan::findOrFail($tripPlanId);
+        $tripList = $tripPlan->tripLists()->findOrFail($tripListId);
 
-    $tripList->delete();
+        $tripList->delete();
 
-    return redirect()->route('trip_plans.show', $tripPlanId)
-                     ->with('success', 'Schedule deleted successfully.');
-}
+        return redirect()->route('trip_plans.show', $tripPlanId)
+                        ->with('success', 'Schedule deleted successfully.');
+    }
 
     public function indexByTripPlan($tripPlanId)
     {
