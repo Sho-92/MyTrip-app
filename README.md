@@ -1,4 +1,5 @@
-<p align="center"><a href="https://mytrip-app.com" target="_blank"><img src="https://example.com/logo.png" width="400" alt="MyTrip-app Logo"></a></p>
+<p align="center"><a href="https://mytrip-app.com" target="_blank"><img src="https://github.com/Sho-92/MyTrip-app/blob/main/public/images/logo.png?raw=true" width="400" alt="MyTrip-app Logo"></a></p>
+
 
 <p align="center">
 <a href="https://github.com/mytrip-app/actions"><img src="https://github.com/mytrip-app/workflows/tests/badge.svg" alt="Build Status"></a>
