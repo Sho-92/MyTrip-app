@@ -37,7 +37,7 @@
                                         @foreach ($checklist->tasks as $task)
                                             <tr data-task-id="{{ $task->id }}" data-checklist-id="{{ $checklist->id }}" class="@if($task->is_checked) table-success @endif">
                                                 <td>
-                                                    <input type="checkbox" class="form-check-input" @if($task->is_checked) checked @endif onchange="toggleHighlight(this)">
+                                                    <input type="checkbox" class="form-check-input" onchange="toggleHighlight(this)">
                                                 </td>
                                                 <td>{{ $task->title }}</td>
                                                 <td>{{ $task->description }}</td>
@@ -80,7 +80,7 @@
                                     @foreach ($checklist->tasks as $task)
                                         <tr data-task-id="{{ $task->id }}" data-checklist-id="{{ $checklist->id }}" class="@if($task->is_checked) table-success @endif">
                                             <td>
-                                                <input type="checkbox" class="form-check-input" @if($task->is_checked) checked @endif onchange="toggleHighlight(this)">
+                                                <input type="checkbox" class="form-check-input" onchange="toggleHighlight(this)">
                                             </td>
                                             <td>{{ $task->title }}</td>
                                             <td>{{ $task->description }}</td>
